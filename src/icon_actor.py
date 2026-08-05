@@ -3,18 +3,15 @@ icon_actor.py
 
 Represents one animated SVG device icon.
 
-Loads an SVG using librsvg, renders it through Cairo,
-and displays it as a Clutter image actor.
-
-Stable rendering:
+Rendering:
 - SVG -> librsvg -> Cairo -> Clutter.Image
-- persistent pixel buffer
 
 Animation:
 - orbital drifting
-- device-specific rotation/effects
-- depth-based scale and brightness
-- smooth fade-in
+- device-specific effects
+- depth variation
+- smooth staggered fade-in
+- subtle depth breathing
 """
 
 import math
@@ -59,10 +56,7 @@ class IconActor:
 
 
         #
-        # Simulated depth.
-        #
-        # 0.25 = distant
-        # 1.0 = foreground
+        # Depth simulation.
         #
 
         self.depth = random.uniform(
@@ -71,8 +65,11 @@ class IconActor:
         )
 
 
+        self.base_scale = self.depth
+
+
         #
-        # Fade-in state.
+        # Fade state.
         #
 
         self.opacity = 0
@@ -84,19 +81,25 @@ class IconActor:
         )
 
 
+        #
+        # Each icon arrives at a different time.
+        #
+
+        self.fade_delay = random.uniform(
+            0,
+            6
+        )
+
+
         self.width = width
         self.height = height
 
-
-        #
-        # Keep image memory alive.
-        #
 
         self.image_data = None
 
 
         #
-        # Create Clutter actor.
+        # Actor.
         #
 
         self.actor = Clutter.Actor()
@@ -107,7 +110,7 @@ class IconActor:
 
 
         #
-        # Orbital movement settings.
+        # Orbit.
         #
 
         self.home_x = random.uniform(
@@ -132,12 +135,7 @@ class IconActor:
         )
 
 
-        #
-        # Depth affects movement range.
-        #
-
         self.orbit_x *= self.depth
-
         self.orbit_y *= self.depth
 
 
@@ -286,10 +284,14 @@ class IconActor:
 
 
         #
-        # Smooth fade-in.
+        # Staggered fade-in.
         #
 
-        if self.opacity < self.target_opacity:
+        if (
+            self.time > self.fade_delay
+            and
+            self.opacity < self.target_opacity
+        ):
 
             self.opacity += (
                 self.target_opacity
@@ -311,7 +313,28 @@ class IconActor:
 
 
         #
-        # Orbital movement.
+        # Depth breathing.
+        #
+
+        breathing_scale = (
+            self.base_scale
+            +
+            math.sin(
+                self.time * 0.5
+            )
+            *
+            0.03
+        )
+
+
+        self.actor.set_scale(
+            breathing_scale,
+            breathing_scale
+        )
+
+
+        #
+        # Orbit movement.
         #
 
         x = (
@@ -347,7 +370,7 @@ class IconActor:
 
 
         #
-        # Device-specific effects.
+        # Device effects.
         #
 
         if self.behaviour == "rotate":
@@ -385,17 +408,19 @@ class IconActor:
 
         elif self.behaviour == "pulse":
 
-            scale = (
+            pulse = (
                 1.0
                 +
-                math.sin(self.time * 2)
+                math.sin(
+                    self.time * 2
+                )
                 *
                 0.1
             )
 
             self.actor.set_scale(
-                scale,
-                scale
+                breathing_scale * pulse,
+                breathing_scale * pulse
             )
 
 
