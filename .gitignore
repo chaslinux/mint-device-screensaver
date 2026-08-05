@@ -2,3 +2,9 @@ __pycache__/
 *.py[cod]
 *.log
 *.swp
+# Debian build output
+debian/.debhelper/
+debian/mint-device-screensaver/
+debian/files
+debian/*.debhelper
+debian/*.substvars

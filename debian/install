@@ -1,2 +1,16 @@
-src/* usr/share/mint-device-screensaver/
+src/animation.py usr/share/mint-device-screensaver/
+src/application.py usr/share/mint-device-screensaver/
+src/background.py usr/share/mint-device-screensaver/
+src/config.py usr/share/mint-device-screensaver/
+src/constants.py usr/share/mint-device-screensaver/
+src/giimports.py usr/share/mint-device-screensaver/
+src/icon_actor.py usr/share/mint-device-screensaver/
+src/icon_loader.py usr/share/mint-device-screensaver/
+src/icon_system.py usr/share/mint-device-screensaver/
+src/main.py usr/share/mint-device-screensaver/
+src/particles.py usr/share/mint-device-screensaver/
+src/scene.py usr/share/mint-device-screensaver/
+src/stage.py usr/share/mint-device-screensaver/
+src/utils.py usr/share/mint-device-screensaver/
+src/version.py usr/share/mint-device-screensaver/
 mint-device-screensaver usr/bin/
