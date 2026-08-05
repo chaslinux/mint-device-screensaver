@@ -127,6 +127,13 @@ class ScreenSaverWindow(Gtk.Window):
 
     def on_resize(self, widget, allocation):
 
+        print(
+            "GTK allocation:",
+            allocation.width,
+            allocation.height
+        )
+
+
         if self.scene:
 
             self.scene.resize(

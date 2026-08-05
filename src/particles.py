@@ -1,13 +1,13 @@
 """
 particles.py
 
-Atmospheric particle system.
+Starfield-style atmospheric particle system.
 
-Creates soft drifting particles with:
-- variable size
+Creates:
+- randomly distributed stars
 - depth illusion
-- transparency
-- gentle movement
+- slow drifting motion
+- twinkling brightness
 """
 
 import random
@@ -20,17 +20,21 @@ from giimports import Clutter
 class Particle:
 
 
-    def __init__(self, actor, width, height):
+    def __init__(
+        self,
+        actor,
+        width,
+        height
+    ):
 
         self.actor = actor
-
 
         self.width = width
         self.height = height
 
 
         #
-        # Position
+        # Random full-screen placement.
         #
 
         self.x = random.uniform(
@@ -45,47 +49,46 @@ class Particle:
 
 
         #
-        # Depth simulation.
-        #
-        # 0.2 = far away
-        # 1.0 = close
+        # Depth:
+        # small = far star
+        # large = near star
         #
 
         self.depth = random.uniform(
-            0.2,
+            0.1,
             1.0
         )
 
 
         #
-        # Size based on depth.
+        # Star size.
         #
 
         self.size = (
-            2
+            1
             +
-            self.depth * 7
+            self.depth * 5
         )
 
 
         #
-        # Movement speed based on depth.
+        # Very slow random movement.
         #
 
         self.speed_x = random.uniform(
-            -5,
-            5
+            -100,
+            100
         ) * self.depth
 
 
         self.speed_y = random.uniform(
-            -20,
-            -5
+            -100,
+            100
         ) * self.depth
 
 
         #
-        # Pulsing.
+        # Twinkle timing.
         #
 
         self.phase = random.uniform(
@@ -94,9 +97,15 @@ class Particle:
         )
 
 
+        self.twinkle_speed = random.uniform(
+            0.5,
+            2.0
+        )
+
+
         self.base_alpha = random.randint(
-            40,
-            160
+            50,
+            180
         )
 
 
@@ -111,10 +120,6 @@ class Particle:
 
 
     def update_colour(self):
-
-        """
-        Update particle brightness.
-        """
 
         brightness = int(
             180
@@ -141,11 +146,8 @@ class Particle:
         height
     ):
 
-        self.phase += delta
-
-
         #
-        # Movement.
+        # Move star.
         #
 
         self.x += (
@@ -153,7 +155,6 @@ class Particle:
             *
             delta
         )
-
 
         self.y += (
             self.speed_y
@@ -163,41 +164,29 @@ class Particle:
 
 
         #
-        # Gentle drifting.
+        # Twinkle.
         #
 
-        self.x += (
-            math.sin(
-                self.phase
-            )
-            *
-            self.depth
-            *
-            5
-            *
+        self.phase += (
             delta
+            *
+            self.twinkle_speed
         )
 
 
-        #
-        # Pulse brightness.
-        #
-
-        pulse = (
-            0.7
+        brightness = (
+            0.55
             +
-            math.sin(
-                self.phase * 2
-            )
+            math.sin(self.phase)
             *
-            0.3
+            0.45
         )
 
 
         alpha = int(
             self.base_alpha
             *
-            pulse
+            brightness
         )
 
 
@@ -207,22 +196,21 @@ class Particle:
 
 
         #
-        # Wrap around.
+        # Wrap edges.
         #
 
-        if self.y < -20:
+        if self.x < 0:
+            self.x = width
 
-            self.y = height + 20
-
-
-        if self.x < -20:
-
-            self.x = width + 20
+        elif self.x > width:
+            self.x = 0
 
 
-        if self.x > width + 20:
+        if self.y < 0:
+            self.y = height
 
-            self.x = -20
+        elif self.y > height:
+            self.y = 0
 
 
         self.actor.set_position(
@@ -235,7 +223,10 @@ class Particle:
 class ParticleSystem:
 
 
-    def __init__(self, layer):
+    def __init__(
+        self,
+        layer
+    ):
 
         self.layer = layer
 
@@ -246,10 +237,10 @@ class ParticleSystem:
 
 
         #
-        # Number of particles.
+        # Star count.
         #
 
-        count = 100
+        count = 180
 
 
         for i in range(count):
@@ -286,7 +277,10 @@ class ParticleSystem:
 
 
 
-    def update(self, delta):
+    def update(
+        self,
+        delta
+    ):
 
         for particle in self.particles:
 
