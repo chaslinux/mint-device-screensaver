@@ -6,12 +6,13 @@ Represents one animated SVG device icon.
 Loads an SVG using librsvg, renders it through Cairo,
 and displays it as a Clutter image actor.
 
-Stable version:
-- SVG rendering through librsvg
-- Cairo rendering
-- Clutter.Image display
-- Gentle floating motion
-- Device-specific animation
+Stable rendering:
+- SVG -> librsvg -> Cairo -> Clutter.Image
+- persistent pixel buffer
+
+Animation:
+- orbital drifting
+- device-specific rotation/effects
 """
 
 import math
@@ -45,29 +46,32 @@ class IconActor:
             str(svg_path)
         )
 
+
         self.behaviour = self.detect_behaviour()
+
 
         self.layer = layer
 
+
         self.time = random.random() * 10
+
 
         self.width = width
         self.height = height
 
 
         #
-        # Keep pixel data alive.
+        # Keep image memory alive.
         #
 
         self.image_data = None
 
 
         #
-        # Create actor.
+        # Create Clutter actor.
         #
 
         self.actor = Clutter.Actor()
-
 
         self.layer.add_child(
             self.actor
@@ -75,19 +79,38 @@ class IconActor:
 
 
         #
-        # Fixed home position.
-        #
-        # Animation moves around this point.
+        # Orbital movement settings.
         #
 
         self.home_x = random.uniform(
-            100,
-            width - 100
+            150,
+            width - 150
         )
 
         self.home_y = random.uniform(
-            100,
-            height - 100
+            150,
+            height - 150
+        )
+
+
+        self.orbit_x = random.uniform(
+            30,
+            180
+        )
+
+        self.orbit_y = random.uniform(
+            30,
+            120
+        )
+
+        self.orbit_speed = random.uniform(
+            0.15,
+            0.45
+        )
+
+        self.phase = random.uniform(
+            0,
+            math.pi * 2
         )
 
 
@@ -96,10 +119,6 @@ class IconActor:
 
 
     def detect_behaviour(self):
-
-        """
-        Select animation style based on icon name.
-        """
 
         name = self.icon_name
 
@@ -134,17 +153,12 @@ class IconActor:
         if "ebook" in name:
             return "tilt"
 
+
         return "float"
 
 
 
     def render_svg(self):
-
-        """
-        Render SVG into a Clutter.Image.
-
-        Keeps image memory alive for Clutter.
-        """
 
         size = 160
 
@@ -174,10 +188,6 @@ class IconActor:
         surface.flush()
 
 
-        #
-        # Keep buffer alive.
-        #
-
         self.image_data = bytes(
             surface.get_data()
         )
@@ -206,28 +216,12 @@ class IconActor:
         )
 
 
-        self.actor.set_scale(
-            1.0,
-            1.0
-        )
-
-
         self.actor.set_opacity(
             255
         )
 
 
         self.actor.show()
-
-
-        #
-        # Initial placement.
-        #
-
-        self.actor.set_position(
-            self.home_x,
-            self.home_y
-        )
 
 
 
@@ -238,33 +232,42 @@ class IconActor:
         height
     ):
 
-        """
-        Animate icon around its home position.
-        """
-
         self.time += delta
 
 
         #
-        # Gentle floating motion.
+        # Orbital movement.
         #
 
-        offset_x = (
-            math.sin(self.time)
+        x = (
+            self.home_x
+            +
+            math.sin(
+                self.time * self.orbit_speed
+                +
+                self.phase
+            )
             *
-            50
+            self.orbit_x
         )
 
-        offset_y = (
-            math.cos(self.time * 0.7)
+
+        y = (
+            self.home_y
+            +
+            math.cos(
+                self.time * self.orbit_speed
+                +
+                self.phase
+            )
             *
-            50
+            self.orbit_y
         )
 
 
         self.actor.set_position(
-            self.home_x + offset_x,
-            self.home_y + offset_y
+            x,
+            y
         )
 
 
@@ -307,7 +310,7 @@ class IconActor:
 
         elif self.behaviour == "pulse":
 
-            pulse = (
+            scale = (
                 1.0
                 +
                 math.sin(self.time * 2)
@@ -315,28 +318,23 @@ class IconActor:
                 0.1
             )
 
-
             self.actor.set_scale(
-                pulse,
-                pulse
+                scale,
+                scale
             )
 
 
         elif self.behaviour == "bounce":
 
             self.actor.set_position(
-                self.home_x,
-                self.home_y
-                +
-                math.sin(self.time * 2) * 30
+                x,
+                y + math.sin(self.time * 2) * 20
             )
 
 
         elif self.behaviour == "side":
 
             self.actor.set_position(
-                self.home_x
-                +
-                math.sin(self.time) * 40,
-                self.home_y
+                x + math.sin(self.time) * 30,
+                y
             )
