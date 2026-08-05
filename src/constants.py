@@ -12,7 +12,21 @@ FRAME_RATE = 60
 
 BACKGROUND_COLOUR = (20, 20, 30)
 
-LOG_FILENAME = "mint-device-screensaver.log"
+LOG_DIRECTORY = (
+    Path.home()
+    /
+    ".local"
+    /
+    "state"
+    /
+    "mint-device-screensaver"
+)
+
+LOG_FILENAME = (
+    LOG_DIRECTORY
+    /
+    "mint-device-screensaver.log"
+)
 
 WINDOW_TITLE = "Mint Device Screensaver"
 

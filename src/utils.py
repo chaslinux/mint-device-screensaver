@@ -4,14 +4,19 @@ Utility functions.
 
 import logging
 
-from constants import LOG_FILENAME
+from constants import LOG_DIRECTORY, LOG_FILENAME
 
 
 def setup_logging():
 
+    LOG_DIRECTORY.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
     logging.basicConfig(
 
-        filename=LOG_FILENAME,
+        filename=str(LOG_FILENAME),
 
         level=logging.INFO,
 
@@ -19,4 +24,6 @@ def setup_logging():
 
     )
 
-    logging.info("Logging started.")
+    logging.info(
+        "Logging started."
+    )

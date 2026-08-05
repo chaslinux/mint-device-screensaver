@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
-cd "$(dirname "$0")"
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$SCRIPT_DIR"
+
 exec ./src/main.py "$@"
