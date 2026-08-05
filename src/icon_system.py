@@ -26,13 +26,6 @@ class IconSystem:
 
         icon_paths = loader.load_icons()
 
-
-        print(
-            "Creating icons:",
-            len(icon_paths)
-        )
-
-
         for path in icon_paths:
 
             icon = IconActor(
@@ -45,14 +38,6 @@ class IconSystem:
             self.icons.append(
                 icon
             )
-
-
-        print(
-            "Icons created:",
-            len(self.icons)
-        )
-
-
 
     def resize(
         self,
