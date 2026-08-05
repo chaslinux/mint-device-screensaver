@@ -14,6 +14,7 @@ Animation:
 - orbital drifting
 - device-specific rotation/effects
 - depth-based scale and brightness
+- smooth fade-in
 """
 
 import math
@@ -67,6 +68,19 @@ class IconActor:
         self.depth = random.uniform(
             0.25,
             1.0
+        )
+
+
+        #
+        # Fade-in state.
+        #
+
+        self.opacity = 0
+
+        self.target_opacity = int(
+            80
+            +
+            self.depth * 175
         )
 
 
@@ -235,10 +249,6 @@ class IconActor:
         )
 
 
-        #
-        # Depth-based size.
-        #
-
         scaled_size = (
             size
             *
@@ -253,15 +263,11 @@ class IconActor:
 
 
         #
-        # Depth-based brightness.
+        # Start invisible.
         #
 
         self.actor.set_opacity(
-            int(
-                80
-                +
-                self.depth * 175
-            )
+            0
         )
 
 
@@ -277,6 +283,31 @@ class IconActor:
     ):
 
         self.time += delta
+
+
+        #
+        # Smooth fade-in.
+        #
+
+        if self.opacity < self.target_opacity:
+
+            self.opacity += (
+                self.target_opacity
+                *
+                delta
+                *
+                0.8
+            )
+
+
+            if self.opacity > self.target_opacity:
+
+                self.opacity = self.target_opacity
+
+
+            self.actor.set_opacity(
+                int(self.opacity)
+            )
 
 
         #
