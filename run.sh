@@ -2,7 +2,4 @@
 
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-cd "$SCRIPT_DIR"
-
-exec ./src/main.py "$@"
+exec python3 /usr/share/mint-device-screensaver/main.py "$@"

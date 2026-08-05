@@ -1,0 +1,2 @@
+src/* usr/share/mint-device-screensaver/
+run.sh usr/bin/mint-device-screensaver
