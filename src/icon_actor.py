@@ -13,6 +13,7 @@ Stable rendering:
 Animation:
 - orbital drifting
 - device-specific rotation/effects
+- depth-based scale and brightness
 """
 
 import math
@@ -54,6 +55,19 @@ class IconActor:
 
 
         self.time = random.random() * 10
+
+
+        #
+        # Simulated depth.
+        #
+        # 0.25 = distant
+        # 1.0 = foreground
+        #
+
+        self.depth = random.uniform(
+            0.25,
+            1.0
+        )
 
 
         self.width = width
@@ -103,10 +117,21 @@ class IconActor:
             120
         )
 
+
+        #
+        # Depth affects movement range.
+        #
+
+        self.orbit_x *= self.depth
+
+        self.orbit_y *= self.depth
+
+
         self.orbit_speed = random.uniform(
             0.15,
             0.45
         )
+
 
         self.phase = random.uniform(
             0,
@@ -210,14 +235,33 @@ class IconActor:
         )
 
 
-        self.actor.set_size(
-            size,
+        #
+        # Depth-based size.
+        #
+
+        scaled_size = (
             size
+            *
+            self.depth
         )
 
 
+        self.actor.set_size(
+            scaled_size,
+            scaled_size
+        )
+
+
+        #
+        # Depth-based brightness.
+        #
+
         self.actor.set_opacity(
-            255
+            int(
+                80
+                +
+                self.depth * 175
+            )
         )
 
 
