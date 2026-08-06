@@ -5,7 +5,7 @@ Loads user configuration from:
 
     ~/.config/mint-device-screensaver/config.ini
 
-If the file does not exist, built-in defaults are used.
+If the file does not exist, a default configuration file is created.
 """
 
 import configparser
@@ -22,6 +22,7 @@ from constants import (
 
 class Config:
 
+
     def __init__(self):
 
         self.exit_on_mouse_move = EXIT_ON_MOUSE_MOVE
@@ -30,6 +31,8 @@ class Config:
 
         self.background_color = BACKGROUND_COLOR
 
+
+        self.create_default_config()
 
         self.load()
 
@@ -45,6 +48,38 @@ class Config:
             "mint-device-screensaver"
             /
             "config.ini"
+        )
+
+
+
+    def create_default_config(self):
+
+        path = self.config_path()
+
+
+        if path.exists():
+
+            return
+
+
+        path.parent.mkdir(
+            parents=True,
+            exist_ok=True
+        )
+
+
+        path.write_text(
+            """# Mint Device Screensaver configuration
+
+[general]
+exit_on_mouse_move=true
+
+[animation]
+speed=1.0
+
+[appearance]
+background=#14141e
+"""
         )
 
 
@@ -115,8 +150,9 @@ class Config:
             ValueError
         ):
 
-            # Keep defaults if config is invalid
-
+            #
+            # Keep defaults if config is invalid.
+            #
             pass
 
 
@@ -124,7 +160,7 @@ class Config:
     def parse_color(self, value):
 
         """
-        Convert #RRGGBB into Clutter-compatible RGB values.
+        Convert #RRGGBB into RGB values.
         """
 
         value = value.strip().lstrip("#")
