@@ -31,6 +31,8 @@ Mint Device Screensaver provides only the visual screensaver experience.
 
 The application does **not** replace the Cinnamon lock screen.
 
+![mint-device-screensaver standalone screensaver for Cinnamon](https://private-user-images.githubusercontent.com/97259120/632632948-c674486c-09ec-4053-ab07-8410335da56a.png)
+
 ## Requirements
 
 Tested on:
