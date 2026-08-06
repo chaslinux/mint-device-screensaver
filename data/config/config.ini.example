@@ -1,0 +1,26 @@
+# Mint Device Screensaver configuration
+#
+# Copy this file to:
+# ~/.config/mint-device-screensaver/config.ini
+#
+# Then edit the values to customize the screensaver.
+
+[general]
+
+# Exit screensaver when the mouse moves
+exit_on_mouse_move=true
+
+
+[animation]
+
+# Animation speed multiplier
+# 1.0 = default
+# 0.5 = slower
+# 2.0 = faster
+speed=1.0
+
+
+[appearance]
+
+# Background colour in hexadecimal RGB format
+background=#14141e
