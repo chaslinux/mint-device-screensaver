@@ -84,6 +84,27 @@ background=#14141e
 
 
 
+    def reset(self):
+
+        path = self.config_path()
+
+
+        if path.exists():
+
+            path.unlink()
+
+
+        self.create_default_config()
+
+
+        #
+        # Reload values from the new file.
+        #
+
+        self.load()
+
+
+
     def load(self):
 
         path = self.config_path()
@@ -153,6 +174,7 @@ background=#14141e
             #
             # Keep defaults if config is invalid.
             #
+
             pass
 
 
@@ -163,7 +185,11 @@ background=#14141e
         Convert #RRGGBB into RGB values.
         """
 
-        value = value.strip().lstrip("#")
+        value = (
+            value
+            .strip()
+            .lstrip("#")
+        )
 
 
         if len(value) != 6:
