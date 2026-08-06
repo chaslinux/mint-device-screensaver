@@ -119,6 +119,17 @@ class ScreenSaverWindow(Gtk.Window):
             window.set_cursor(cursor)
 
 
+            #
+            # Ensure pointer motion events reach GTK
+            #
+
+            window.set_events(
+                window.get_events()
+                |
+                Gdk.EventMask.POINTER_MOTION_MASK
+            )
+
+
 
         #
         # Create scene after window exists
@@ -142,13 +153,6 @@ class ScreenSaverWindow(Gtk.Window):
 
     def on_resize(self, widget, allocation):
 
-        print(
-            "GTK allocation:",
-            allocation.width,
-            allocation.height
-        )
-
-
         if self.scene:
 
             self.scene.resize(
@@ -167,7 +171,7 @@ class ScreenSaverWindow(Gtk.Window):
                 self.animation.stop()
 
 
-            Gtk.main_quit()
+            self.destroy()
 
 
 
@@ -180,4 +184,4 @@ class ScreenSaverWindow(Gtk.Window):
                 self.animation.stop()
 
 
-            Gtk.main_quit()
+            self.destroy()
