@@ -9,6 +9,7 @@ If the file does not exist, a default configuration file is created.
 """
 
 import configparser
+import logging
 from pathlib import Path
 
 
@@ -25,6 +26,11 @@ class Config:
 
     def __init__(self):
 
+        logging.debug(
+            "Initializing configuration."
+        )
+
+
         self.exit_on_mouse_move = EXIT_ON_MOUSE_MOVE
 
         self.animation_speed = ANIMATION_SPEED
@@ -40,7 +46,7 @@ class Config:
 
     def config_path(self):
 
-        return (
+        path = (
             Path.home()
             /
             ".config"
@@ -51,6 +57,15 @@ class Config:
         )
 
 
+        logging.debug(
+            "Config path: %s",
+            path
+        )
+
+
+        return path
+
+
 
     def create_default_config(self):
 
@@ -59,7 +74,16 @@ class Config:
 
         if path.exists():
 
+            logging.debug(
+                "Existing config found."
+            )
+
             return
+
+
+        logging.debug(
+            "Creating default configuration."
+        )
 
 
         path.parent.mkdir(
@@ -83,23 +107,34 @@ background=#14141e
         )
 
 
+        logging.info(
+            "Created default configuration: %s",
+            path
+        )
+
+
 
     def reset(self):
 
         path = self.config_path()
 
 
+        logging.info(
+            "Resetting configuration."
+        )
+
+
         if path.exists():
 
             path.unlink()
 
+            logging.debug(
+                "Removed existing configuration."
+            )
+
 
         self.create_default_config()
 
-
-        #
-        # Reload values from the new file.
-        #
 
         self.load()
 
@@ -112,7 +147,17 @@ background=#14141e
 
         if not path.exists():
 
+            logging.warning(
+                "Configuration file missing: %s",
+                path
+            )
+
             return
+
+
+        logging.debug(
+            "Loading configuration."
+        )
 
 
         parser = configparser.ConfigParser()
@@ -166,16 +211,22 @@ background=#14141e
                 )
 
 
+            logging.debug(
+                "Configuration loaded: exit_on_mouse_move=%s speed=%s background=%s",
+                self.exit_on_mouse_move,
+                self.animation_speed,
+                self.background_color
+            )
+
+
         except (
             configparser.Error,
             ValueError
         ):
 
-            #
-            # Keep defaults if config is invalid.
-            #
-
-            pass
+            logging.exception(
+                "Invalid configuration. Using defaults."
+            )
 
 
 
@@ -194,6 +245,11 @@ background=#14141e
 
         if len(value) != 6:
 
+            logging.warning(
+                "Invalid color value: %s",
+                value
+            )
+
             return BACKGROUND_COLOR
 
 
@@ -207,5 +263,10 @@ background=#14141e
 
 
         except ValueError:
+
+            logging.warning(
+                "Invalid color value: %s",
+                value
+            )
 
             return BACKGROUND_COLOR

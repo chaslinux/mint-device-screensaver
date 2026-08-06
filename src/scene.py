@@ -6,6 +6,8 @@ Owns the Clutter scene graph.
 All visual layers live here.
 """
 
+import logging
+
 from giimports import Clutter
 
 from background import Background
@@ -19,12 +21,13 @@ class Scene:
 
     def __init__(self, stage):
 
+        logging.debug(
+            "Initializing scene."
+        )
+
+
         self.stage = stage
 
-
-        #
-        # Root container
-        #
 
         self.root = Clutter.Actor()
 
@@ -33,9 +36,10 @@ class Scene:
         )
 
 
-        #
-        # Background layer
-        #
+        logging.debug(
+            "Creating background layer."
+        )
+
 
         self.background = self.create_layer()
 
@@ -44,16 +48,18 @@ class Scene:
         )
 
 
-        #
-        # Future ribbon effects
-        #
+        logging.debug(
+            "Creating ribbon layer."
+        )
+
 
         self.ribbons = self.create_layer()
 
 
-        #
-        # Particle layer
-        #
+        logging.debug(
+            "Creating particle layer."
+        )
+
 
         self.particles = self.create_layer()
 
@@ -62,9 +68,10 @@ class Scene:
         )
 
 
-        #
-        # Device icon layer
-        #
+        logging.debug(
+            "Creating icon layer."
+        )
+
 
         self.icons = self.create_layer()
 
@@ -73,11 +80,17 @@ class Scene:
         )
 
 
-        #
-        # Overlay layer
-        #
+        logging.debug(
+            "Creating overlay layer."
+        )
+
 
         self.overlay = self.create_layer()
+
+
+        logging.debug(
+            "Scene initialization complete."
+        )
 
 
 
@@ -93,6 +106,7 @@ class Scene:
             layer
         )
 
+
         return layer
 
 
@@ -102,6 +116,14 @@ class Scene:
         """
         Resize all layers when the window changes size.
         """
+
+
+        logging.debug(
+            "Resizing scene: %sx%s",
+            width,
+            height
+        )
+
 
         for layer in (
             self.root,
@@ -118,29 +140,17 @@ class Scene:
             )
 
 
-        #
-        # Resize background.
-        #
-
         self.background_effect.resize(
             width,
             height
         )
 
 
-        #
-        # Resize particles.
-        #
-
         self.particle_effect.resize(
             width,
             height
         )
 
-
-        #
-        # Resize icons.
-        #
 
         self.icon_effect.resize(
             width,
@@ -155,27 +165,16 @@ class Scene:
         Called once per animation frame.
         """
 
-        #
-        # Update animated background.
-        #
 
         self.background_effect.update(
             delta
         )
 
 
-        #
-        # Update particles.
-        #
-
         self.particle_effect.update(
             delta
         )
 
-
-        #
-        # Update device icons.
-        #
 
         self.icon_effect.update(
             delta

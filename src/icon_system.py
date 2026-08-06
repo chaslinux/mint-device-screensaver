@@ -4,6 +4,8 @@ icon_system.py
 Manages all animated device icons.
 """
 
+import logging
+
 from icon_loader import IconLoader
 from icon_actor import IconActor
 
@@ -13,6 +15,11 @@ class IconSystem:
 
 
     def __init__(self, layer):
+
+        logging.debug(
+            "Initializing icon system."
+        )
+
 
         self.layer = layer
 
@@ -25,6 +32,13 @@ class IconSystem:
         loader = IconLoader()
 
         icon_paths = loader.load_icons()
+
+
+        logging.debug(
+            "Creating %s icon actors.",
+            len(icon_paths)
+        )
+
 
         for path in icon_paths:
 
@@ -39,11 +53,26 @@ class IconSystem:
                 icon
             )
 
+
+        logging.info(
+            "Icon system ready with %s icons.",
+            len(self.icons)
+        )
+
+
+
     def resize(
         self,
         width,
         height
     ):
+
+        logging.debug(
+            "Resizing icons: %sx%s",
+            width,
+            height
+        )
+
 
         self.width = width
         self.height = height

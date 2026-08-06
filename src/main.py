@@ -29,20 +29,31 @@ def main():
 
         config = Config()
 
-        print("Configuration:")
+
+        print(
+            "Configuration:"
+        )
+
         print(
             f"  exit_on_mouse_move = {config.exit_on_mouse_move}"
         )
+
         print(
             f"  animation_speed = {config.animation_speed}"
         )
+
         print(
             f"  background_color = {config.background_color}"
         )
 
+
         print()
 
-        print("Config file:")
+
+        print(
+            "Config file:"
+        )
+
         print(
             f"  {config.config_path()}"
         )
@@ -57,6 +68,7 @@ def main():
 
         config.reset()
 
+
         print(
             "Configuration reset."
         )
@@ -69,7 +81,10 @@ def main():
 
 
 
-    app = Application()
+    app = Application(
+        debug="--debug" in sys.argv
+    )
+
 
     app.run()
 

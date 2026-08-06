@@ -7,6 +7,8 @@ This module only handles locating icons.
 Animation is handled elsewhere.
 """
 
+import logging
+
 from pathlib import Path
 
 from constants import ICON_DIRECTORY
@@ -40,12 +42,23 @@ class IconLoader:
         self.icons = []
 
 
+        logging.debug(
+            "Icon loader initialized."
+        )
+
+
 
     def load_icons(self):
 
         """
         Finds all requested SVG files.
         """
+
+        logging.debug(
+            "Searching for icons in: %s",
+            ICON_DIRECTORY
+        )
+
 
         self.icons.clear()
 
@@ -57,9 +70,29 @@ class IconLoader:
 
             if path.exists():
 
+                logging.debug(
+                    "Found icon: %s",
+                    filename
+                )
+
+
                 self.icons.append(
                     path
                 )
+
+
+            else:
+
+                logging.warning(
+                    "Missing icon: %s",
+                    path
+                )
+
+
+        logging.info(
+            "Loaded %s device icons.",
+            len(self.icons)
+        )
 
 
         return self.icons
