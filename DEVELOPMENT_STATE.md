@@ -1,63 +1,71 @@
 # Development state - August 6 2026
 
 Current milestone:
-- Fullscreen animated screensaver rendering works.
-- mint-device-screensaver runs as a standalone animated screensaver application.
-- Rendering works:
-  - Full-screen GTK window
-  - SVG device icons
-  - Animation loop
-  - Particle background
-- Cinnamon lock and screensaver ownership remains with cinnamon-screensaver.
-
-Cinnamon integration status:
-- Previous experiment:
-  - Set org.cinnamon.desktop.screensaver custom-screensaver-command to mint-device-screensaver.
-- Result:
-  - The animation launched correctly.
-  - However, this bypassed Cinnamon's lock workflow.
-  - Ctrl+Alt+L showed the animation but did not show the unlock prompt.
-- Fix:
-  - Restored Cinnamon ownership with:
-    gsettings reset org.cinnamon.desktop.screensaver custom-screensaver-command
-- Verified:
-  - cinnamon-screensaver-command --lock works.
-  - Idle timeout works.
-  - Lock screen and password unlock work.
+- Standalone screensaver application is complete.
+- Cinnamon integration launches mint-device-screensaver through org.cinnamon.desktop.screensaver custom-screensaver-command.
+- Cinnamon remains responsible for locking and login authentication.
+- Rendering works: full screen window, SVG icons, animation loop, and particle background.
+- Debian package builds and installs correctly.
 
 Latest important commits:
-- f91a384 Remove generated build and runtime files
-- df855db Add development state handoff notes
 - 9b80598 Improve screensaver rendering and Cinnamon integration
+- d2e0751 Clarify Cinnamon screensaver integration status
+- Remove generated Debian build files
+- Add command line help option
+- Improve desktop entry metadata
 
 Current state:
-- main branch clean except for ignored/generated build artifacts.
+- main branch clean and pushed to origin.
+- Generated Debian build files are removed from git.
 - Package installs correctly with:
 
   sudo apt install --reinstall ../mint-device-screensaver_0.1.0_all.deb
 
-Testing completed:
-- Manual launch works:
-  mint-device-screensaver
-- Standalone lifecycle works:
-  - Mouse movement exits.
-  - Escape exits.
-  - No orphan processes remain.
-- Cinnamon native screensaver works:
-  - Activation.
-  - Lock.
-  - Unlock.
-  - Idle timeout.
+- Installed application tested successfully.
+
+Verified:
+- Command line help:
+
+  mint-device-screensaver --help
+
+- Version reporting:
+
+  mint-device-screensaver --version
+
+- Desktop entry validation:
+
+  desktop-file-validate /usr/share/applications/mint-device-screensaver.desktop
+
+- Manual launch:
+
+  cinnamon-screensaver-command --activate
+
+- CTRL+ALT+L lock flow works.
+- Cinnamon lock screen appears after screensaver activation.
+- Unlock returns correctly to the Cinnamon session.
+- Cinnamon retains responsibility for authentication.
 
 Logs:
 - ~/.local/state/mint-device-screensaver/mint-device-screensaver.log
 
-Next tasks:
-1. Investigate proper Cinnamon screensaver integration if replacing the visual screensaver remains a goal.
-2. Add screenshots/demo.
-3. Test logout/login.
-4. Test multi-monitor when hardware is available.
-5. Consider release v0.1.2.
+Package:
+- Debian package:
 
-Do not restart rendering work unless a real bug appears.
-Do not use org.cinnamon.desktop.screensaver custom-screensaver-command as an integration method.
+  mint-device-screensaver_0.1.0_all.deb
+
+- Build command:
+
+  debian/build-deb.sh
+
+Next tasks:
+1. Improve README/install instructions.
+2. Add screenshots/demo media.
+3. Review configuration options.
+4. Prepare v0.1.2 release.
+5. Continue testing on additional hardware/displays if available.
+
+Development notes:
+- Do not replace Cinnamon's lock/login handling.
+- The application should remain a standalone visual screensaver.
+- Cinnamon integration should launch the animation only and allow Cinnamon to manage security features.
+- Do not restart rendering work unless a real rendering bug appears.
