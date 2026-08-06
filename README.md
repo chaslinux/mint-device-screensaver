@@ -1,26 +1,43 @@
 # Mint Device Screensaver
 
-An animated screensaver inspired by the Linux Mint design language.
+An animated device-themed screensaver for Linux Mint Cinnamon.
 
-The project uses GTK, Clutter, Cairo, and librsvg to render animated SVG device icons over a dynamic particle background. The goal is to create a modern, lightweight screensaver for Linux Mint that is visually appealing while remaining efficient.
+Mint Device Screensaver is a standalone visual screensaver application built with GTK and Clutter. It provides animated device icons, particles, and fullscreen visual effects while allowing Cinnamon to remain responsible for screen locking and authentication.
 
 ## Features
 
-* Animated SVG device icons
-* Smooth orbital icon movement
-* Depth-based scaling and opacity
-* Staggered icon fade-in
-* Animated particle background
-* Full-screen GTK/Clutter rendering
-* Written entirely in Python
+* Fullscreen animated screensaver window
+* GTK and Clutter based rendering
+* Floating SVG device icons
+* Particle background effects
+* Configurable animation behavior
+* Optional Cinnamon screensaver integration
+* Debian package support
+* Application menu entry and icons
+* Command-line tools for testing and configuration
+
+## Design
+
+Mint Device Screensaver is designed as a **visual screensaver application**.
+
+Cinnamon remains responsible for:
+
+* Screen locking
+* Password authentication
+* Session security
+* Unlock handling
+
+Mint Device Screensaver provides only the visual screensaver experience.
+
+The application does **not** replace the Cinnamon lock screen.
 
 ## Requirements
 
 Tested on:
 
-* Linux Mint 22.3 (64-bit)
+* Linux Mint 22.3 Cinnamon (64-bit)
 
-System packages:
+Required system packages:
 
 * Python 3
 * GTK 3
@@ -30,86 +47,186 @@ System packages:
 * librsvg
 * PyGObject (python3-gi)
 
-An installation script (`install-dependencies.sh`) is included to install the required packages on Linux Mint.
-
 ## Installation
 
-Clone the repository:
+### Quick install
+
+The easiest way to install from source:
 
 ```bash
 git clone https://github.com/chaslinux/mint-device-screensaver.git
 cd mint-device-screensaver
+./install.sh
 ```
 
-Install dependencies:
+The installer will:
+
+* install required dependencies
+* build the Debian package
+* install Mint Device Screensaver
+* create the application menu entry
+
+The installer does **not** modify Cinnamon lock screen or authentication settings.
+
+After installation, launch the application from the menu or:
 
 ```bash
-./install-dependencies.sh
+mint-device-screensaver
 ```
 
-## Running
+## Installing the Debian package
 
-From the project root:
+To build the package manually:
+
+```bash
+./debian/build-deb.sh
+```
+
+Install the generated package:
+
+```bash
+sudo apt install ../mint-device-screensaver_*.deb
+```
+
+## Running from source
+
+For development testing:
 
 ```bash
 ./run.sh
 ```
 
-Alternatively:
+This runs the application directly from the source tree without installing the package.
+
+## Cinnamon Testing
+
+Mint Device Screensaver can be tested manually:
 
 ```bash
-python3 src/main.py
+cinnamon-screensaver-command --activate
 ```
 
-## Project Structure
+To test normal Cinnamon locking:
 
+```text
+Ctrl + Alt + L
 ```
-mint-device-screensaver/
-├── data/
-├── debian/
-├── src/
-├── install-dependencies.sh
-├── run.sh
-├── LICENSE
-└── README.md
+
+Cinnamon should continue to display its normal lock screen and handle authentication.
+
+## Command Line Options
+
+Show help:
+
+```bash
+mint-device-screensaver --help
+```
+
+Show version:
+
+```bash
+mint-device-screensaver --version
+```
+
+Display current configuration:
+
+```bash
+mint-device-screensaver --show-config
+```
+
+Reset configuration:
+
+```bash
+mint-device-screensaver --reset-config
+```
+
+Enable debug logging:
+
+```bash
+mint-device-screensaver --debug
+```
+
+## Configuration
+
+Configuration is stored in the user's configuration directory.
+
+View the current configuration:
+
+```bash
+mint-device-screensaver --show-config
+```
+
+Available configuration options include:
+
+* Animation speed
+* Background color
+* Mouse exit behavior
+
+## Logs
+
+Runtime logs are stored at:
+
+```text
+~/.local/state/mint-device-screensaver/mint-device-screensaver.log
 ```
 
 ## Development
 
-The project is developed using feature branches with incremental commits and Git tags to make experimentation easy while keeping stable milestones.
-
-Typical workflow:
+Install development dependencies:
 
 ```bash
-git checkout -b feature-name
+./install-dependencies.sh
 ```
 
-After testing:
+Run from source:
 
 ```bash
-git add .
-git commit -m "Describe the change"
-git tag vX.Y-feature
-git push origin feature-name
-git push origin vX.Y-feature
+./run.sh
 ```
 
-Stable features are merged into `main`.
+Build the Debian package:
 
-## Roadmap
+```bash
+./debian/build-deb.sh
+```
 
-Planned improvements include:
+## Project Structure
 
-* Native Debian (`.deb`) package
-* Cinnamon screensaver integration
-* Application launcher
-* Desktop entry
-* Additional particle effects
-* Configuration options
-* Improved documentation
-* Screenshots and demo video
+```text
+mint-device-screensaver/
+├── data/
+│   ├── applications/
+│   ├── icons/
+│   └── config/
+├── debian/
+│   ├── build-deb.sh
+│   └── packaging files
+├── src/
+│   ├── application.py
+│   ├── animation.py
+│   ├── config.py
+│   ├── scene.py
+│   ├── stage.py
+│   └── supporting modules
+├── install.sh
+├── install-dependencies.sh
+├── mint-device-screensaver
+└── run.sh
+```
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0. See the `LICENSE` file for details.
+This project is licensed under the GNU General Public License v3.0 or later.
+
+See the `LICENSE` file for details.
+
+## Status
+
+Current release:
+
+```text
+Mint Device Screensaver 0.1.2
+```
+
+The project is focused on providing a stable standalone screensaver experience for Linux Mint Cinnamon.
 

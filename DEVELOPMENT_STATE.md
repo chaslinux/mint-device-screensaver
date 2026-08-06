@@ -69,3 +69,9 @@ Development notes:
 - The application should remain a standalone visual screensaver.
 - Cinnamon integration should launch the animation only and allow Cinnamon to manage security features.
 - Do not restart rendering work unless a real rendering bug appears.
+
+Installer:
+- Added top-level install.sh convenience installer.
+- Installer builds and installs the Debian package.
+- Installer does not modify Cinnamon screensaver or lock settings.
+- Mint Device Screensaver remains a standalone visual application.
