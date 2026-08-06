@@ -8,3 +8,5 @@ debian/*.debhelper.log
 debian/*.substvars
 debian/files
 debian/mint-device-screensaver/
+debian/.debhelper/
+debian/debhelper-build-stamp
