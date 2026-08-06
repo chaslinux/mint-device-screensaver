@@ -31,6 +31,15 @@ class ScreenSaverWindow(Gtk.Window):
         self.animation = None
 
 
+        #
+        # Enable mouse movement events
+        #
+
+        self.add_events(
+            Gdk.EventMask.POINTER_MOTION_MASK
+        )
+
+
         self.set_title(
             "Mint Device Screensaver"
         )
@@ -48,6 +57,12 @@ class ScreenSaverWindow(Gtk.Window):
         self.connect(
             "key-press-event",
             self.on_key_press
+        )
+
+
+        self.connect(
+            "motion-notify-event",
+            self.on_mouse_move
         )
 
 
@@ -140,6 +155,19 @@ class ScreenSaverWindow(Gtk.Window):
                 allocation.width,
                 allocation.height
             )
+
+
+
+    def on_mouse_move(self, widget, event):
+
+        if self.application.config.exit_on_mouse_move:
+
+            if self.animation:
+
+                self.animation.stop()
+
+
+            Gtk.main_quit()
 
 
 
