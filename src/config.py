@@ -1,13 +1,23 @@
 """
 Configuration loader.
 
-Later versions will support a configuration file in
-~/.config/mint-device-screensaver/
+Loads user configuration from:
 
-For now this simply exposes defaults.
+    ~/.config/mint-device-screensaver/config.ini
+
+If the file does not exist, built-in defaults are used.
 """
 
-from constants import EXIT_ON_MOUSE_MOVE
+import configparser
+from pathlib import Path
+
+
+from constants import (
+    EXIT_ON_MOUSE_MOVE,
+    ANIMATION_SPEED,
+    BACKGROUND_COLOR,
+)
+
 
 
 class Config:
@@ -15,3 +25,125 @@ class Config:
     def __init__(self):
 
         self.exit_on_mouse_move = EXIT_ON_MOUSE_MOVE
+
+        self.animation_speed = ANIMATION_SPEED
+
+        self.background_color = BACKGROUND_COLOR
+
+
+        self.load()
+
+
+
+    def config_path(self):
+
+        return (
+            Path.home()
+            /
+            ".config"
+            /
+            "mint-device-screensaver"
+            /
+            "config.ini"
+        )
+
+
+
+    def load(self):
+
+        path = self.config_path()
+
+
+        if not path.exists():
+
+            return
+
+
+        parser = configparser.ConfigParser()
+
+
+        try:
+
+            parser.read(path)
+
+
+            if parser.has_option(
+                "general",
+                "exit_on_mouse_move"
+            ):
+
+                self.exit_on_mouse_move = (
+                    parser.getboolean(
+                        "general",
+                        "exit_on_mouse_move"
+                    )
+                )
+
+
+
+            if parser.has_option(
+                "animation",
+                "speed"
+            ):
+
+                self.animation_speed = (
+                    parser.getfloat(
+                        "animation",
+                        "speed"
+                    )
+                )
+
+
+
+            if parser.has_option(
+                "appearance",
+                "background"
+            ):
+
+                self.background_color = (
+                    self.parse_color(
+                        parser.get(
+                            "appearance",
+                            "background"
+                        )
+                    )
+                )
+
+
+        except (
+            configparser.Error,
+            ValueError
+        ):
+
+            # Keep defaults if config is invalid
+
+            pass
+
+
+
+    def parse_color(self, value):
+
+        """
+        Convert #RRGGBB into Clutter-compatible RGB values.
+        """
+
+        value = value.strip().lstrip("#")
+
+
+        if len(value) != 6:
+
+            return BACKGROUND_COLOR
+
+
+        try:
+
+            return (
+                int(value[0:2], 16),
+                int(value[2:4], 16),
+                int(value[4:6], 16),
+            )
+
+
+        except ValueError:
+
+            return BACKGROUND_COLOR

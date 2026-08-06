@@ -89,11 +89,20 @@ class ScreenSaverWindow(Gtk.Window):
         self.stage = self.embed.get_stage()
 
 
+        #
+        # Load background from configuration
+        #
+
+        background = (
+            self.application.config.background_color
+        )
+
+
         self.stage.set_background_color(
             Clutter.Color.new(
-                5,
-                5,
-                10,
+                background[0],
+                background[1],
+                background[2],
                 255
             )
         )
@@ -119,17 +128,6 @@ class ScreenSaverWindow(Gtk.Window):
             window.set_cursor(cursor)
 
 
-            #
-            # Ensure pointer motion events reach GTK
-            #
-
-            window.set_events(
-                window.get_events()
-                |
-                Gdk.EventMask.POINTER_MOTION_MASK
-            )
-
-
 
         #
         # Create scene after window exists
@@ -153,6 +151,13 @@ class ScreenSaverWindow(Gtk.Window):
 
     def on_resize(self, widget, allocation):
 
+        print(
+            "GTK allocation:",
+            allocation.width,
+            allocation.height
+        )
+
+
         if self.scene:
 
             self.scene.resize(
@@ -171,7 +176,7 @@ class ScreenSaverWindow(Gtk.Window):
                 self.animation.stop()
 
 
-            self.destroy()
+            Gtk.main_quit()
 
 
 
@@ -184,4 +189,4 @@ class ScreenSaverWindow(Gtk.Window):
                 self.animation.stop()
 
 
-            self.destroy()
+            Gtk.main_quit()
