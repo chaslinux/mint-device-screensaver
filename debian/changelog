@@ -1,5 +1,10 @@
 mint-device-screensaver (0.1.0) noble; urgency=medium
 
-  * Initial Debian package.
+  * Initial release of Mint Device Screensaver.
+  * Added GTK and Clutter based animated screensaver.
+  * Added Cinnamon screensaver integration.
+  * Added SVG and PNG application icons.
+  * Added desktop menu entry and launcher.
+  * Added device icon rendering and particle effects.
 
  -- chaslinux <chaslinux@example.com>  Wed, 05 Aug 2026 17:00:00 +0000
