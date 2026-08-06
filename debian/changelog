@@ -1,3 +1,13 @@
+mint-device-screensaver (0.1.2) noble; urgency=medium
+
+  * Improved standalone application experience.
+  * Added command line help support.
+  * Improved desktop entry metadata.
+  * Removed generated Debian build artifacts from source control.
+  * Improved Cinnamon integration documentation.
+  * Verified Cinnamon lock and unlock workflow.
+
+ -- chaslinux <chaslinux@example.com>  Thu, 06 Aug 2026 13:30:00 -0400
 mint-device-screensaver (0.1.0) noble; urgency=medium
 
   * Initial release of Mint Device Screensaver.
