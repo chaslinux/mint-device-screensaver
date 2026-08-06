@@ -4,8 +4,8 @@ stage.py
 Fullscreen GTK window containing the Clutter scene.
 """
 
-import logging
 
+import time
 
 from giimports import Gtk
 from giimports import Gdk
@@ -23,11 +23,6 @@ class ScreenSaverWindow(Gtk.Window):
 
     def __init__(self, application):
 
-        logging.debug(
-            "Initializing screensaver window."
-        )
-
-
         super().__init__()
 
 
@@ -38,10 +33,22 @@ class ScreenSaverWindow(Gtk.Window):
         self.animation = None
 
 
-        logging.debug(
-            "Enabling mouse movement events."
-        )
+        #
+        # Ignore pointer events during initial startup.
+        #
+        # Cinnamon can generate mouse motion events while
+        # moving into fullscreen screensaver mode.
+        #
 
+        self.start_time = time.monotonic()
+
+        self.mouse_grace_period = 3.0
+
+
+
+        #
+        # Enable mouse movement events
+        #
 
         self.add_events(
             Gdk.EventMask.POINTER_MOTION_MASK
@@ -50,11 +57,6 @@ class ScreenSaverWindow(Gtk.Window):
 
         self.set_title(
             "Mint Device Screensaver"
-        )
-
-
-        logging.debug(
-            "Setting fullscreen mode."
         )
 
 
@@ -102,14 +104,12 @@ class ScreenSaverWindow(Gtk.Window):
         self.stage = self.embed.get_stage()
 
 
+        #
+        # Load background from configuration
+        #
+
         background = (
             self.application.config.background_color
-        )
-
-
-        logging.debug(
-            "Using background color: %s",
-            background
         )
 
 
@@ -126,51 +126,37 @@ class ScreenSaverWindow(Gtk.Window):
 
     def on_realize(self, widget):
 
-        logging.debug(
-            "Window realized."
-        )
-
+        #
+        # Hide cursor
+        #
 
         window = self.get_window()
 
 
         if window:
 
-            logging.debug(
-                "Hiding mouse cursor."
-            )
-
-
             cursor = Gdk.Cursor.new_for_display(
                 window.get_display(),
                 Gdk.CursorType.BLANK_CURSOR
             )
 
-
-            window.set_cursor(
-                cursor
-            )
+            window.set_cursor(cursor)
 
 
+
+        #
+        # Create scene after window exists
+        #
 
         if self.scene is None:
-
-            logging.debug(
-                "Creating scene."
-            )
-
 
             self.scene = Scene(
                 self.stage
             )
 
+
             self.animation = AnimationManager(
                 self.scene
-            )
-
-
-            logging.debug(
-                "Starting animation."
             )
 
 
@@ -180,12 +166,9 @@ class ScreenSaverWindow(Gtk.Window):
 
     def on_resize(self, widget, allocation):
 
-        logging.debug(
-            "Window resized: %sx%s",
-            allocation.width,
-            allocation.height
-        )
-
+        #
+        # Resize the scene.
+        #
 
         if self.scene:
 
@@ -198,12 +181,21 @@ class ScreenSaverWindow(Gtk.Window):
 
     def on_mouse_move(self, widget, event):
 
+        #
+        # Ignore startup pointer events.
+        #
+
+        if (
+            time.monotonic() - self.start_time
+            <
+            self.mouse_grace_period
+        ):
+
+            return
+
+
+
         if self.application.config.exit_on_mouse_move:
-
-            logging.debug(
-                "Mouse movement detected. Exiting screensaver."
-            )
-
 
             if self.animation:
 
@@ -217,11 +209,6 @@ class ScreenSaverWindow(Gtk.Window):
     def on_key_press(self, widget, event):
 
         if event.keyval == Gdk.KEY_Escape:
-
-            logging.debug(
-                "Escape pressed. Exiting screensaver."
-            )
-
 
             if self.animation:
 

@@ -27,7 +27,6 @@ from giimports import (
 )
 
 
-
 class IconActor:
 
 
@@ -45,12 +44,9 @@ class IconActor:
             str(svg_path)
         )
 
-
         self.behaviour = self.detect_behaviour()
 
-
         self.layer = layer
-
 
         self.time = random.random() * 10
 
@@ -65,7 +61,15 @@ class IconActor:
         )
 
 
-        self.base_scale = self.depth
+        #
+        # Visible depth scaling.
+        #
+
+        self.base_scale = (
+            0.65
+            +
+            self.depth * 0.45
+        )
 
 
         #
@@ -74,16 +78,8 @@ class IconActor:
 
         self.opacity = 0
 
-        self.target_opacity = int(
-            80
-            +
-            self.depth * 175
-        )
+        self.target_opacity = 220
 
-
-        #
-        # Each icon arrives at a different time.
-        #
 
         self.fade_delay = random.uniform(
             0,
@@ -93,7 +89,6 @@ class IconActor:
 
         self.width = width
         self.height = height
-
 
         self.image_data = None
 
@@ -115,12 +110,12 @@ class IconActor:
 
         self.home_x = random.uniform(
             150,
-            width - 150
+            max(151, width - 150)
         )
 
         self.home_y = random.uniform(
             150,
-            height - 150
+            max(151, height - 150)
         )
 
 
@@ -247,22 +242,15 @@ class IconActor:
         )
 
 
-        scaled_size = (
-            size
-            *
-            self.depth
-        )
-
+        #
+        # Keep SVG resolution.
+        #
 
         self.actor.set_size(
-            scaled_size,
-            scaled_size
+            size,
+            size
         )
 
-
-        #
-        # Start invisible.
-        #
 
         self.actor.set_opacity(
             0
@@ -284,7 +272,7 @@ class IconActor:
 
 
         #
-        # Staggered fade-in.
+        # Fade in.
         #
 
         if (
@@ -417,6 +405,7 @@ class IconActor:
                 *
                 0.1
             )
+
 
             self.actor.set_scale(
                 breathing_scale * pulse,
