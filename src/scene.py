@@ -68,7 +68,8 @@ class Scene:
 
         self.particle_effect = ParticleSystem(
             self.particles,
-            self.config.particle_count
+            self.config.particle_count,
+            self.config.particle_style
         )
 
         logging.debug(

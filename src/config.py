@@ -18,6 +18,7 @@ from constants import (
     ANIMATION_SPEED,
     BACKGROUND_COLOR,
     PARTICLE_COUNT,
+    PARTICLE_STYLE,
 )
 
 
@@ -35,6 +36,7 @@ class Config:
         self.animation_speed = ANIMATION_SPEED
         self.background_color = BACKGROUND_COLOR
         self.particle_count = PARTICLE_COUNT
+        self.particle_style = PARTICLE_STYLE
 
 
         self.create_default_config()
@@ -105,6 +107,7 @@ background=#14141e
 
 [particles]
 count=180
+style=circle
 """
         )
 
@@ -188,7 +191,8 @@ count=180
         parser["particles"] = {
             "count": str(
                 self.particle_count
-            )
+            ),
+            "style": self.particle_style
         }
 
 
@@ -275,6 +279,20 @@ count=180
 
 
             if parser.has_option(
+                "particles",
+                "style"
+            ):
+
+                self.particle_style = (
+                    parser.get(
+                        "particles",
+                        "style"
+                    )
+                )
+
+
+
+            if parser.has_option(
                 "appearance",
                 "background"
             ):
@@ -290,11 +308,12 @@ count=180
 
 
             logging.debug(
-                "Configuration loaded: exit_on_mouse_move=%s speed=%s background=%s particles=%s",
+                "Configuration loaded: exit_on_mouse_move=%s speed=%s background=%s particles=%s style=%s",
                 self.exit_on_mouse_move,
                 self.animation_speed,
                 self.background_color,
-                self.particle_count
+                self.particle_count,
+                self.particle_style
             )
 
 

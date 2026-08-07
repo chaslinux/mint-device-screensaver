@@ -4,10 +4,11 @@ particles.py
 Starfield-style atmospheric particle system.
 
 Creates:
-- randomly distributed stars
+- randomly distributed particles
 - depth illusion
 - slow drifting motion
 - twinkling brightness
+- configurable particle style support
 """
 
 import random
@@ -24,10 +25,12 @@ class Particle:
         self,
         actor,
         width,
-        height
+        height,
+        style="circle"
     ):
 
         self.actor = actor
+        self.style = style
 
         self.width = width
         self.height = height
@@ -50,8 +53,8 @@ class Particle:
 
         #
         # Depth:
-        # small = far star
-        # large = near star
+        # small = far particle
+        # large = near particle
         #
 
         self.depth = random.uniform(
@@ -61,7 +64,7 @@ class Particle:
 
 
         #
-        # Star size.
+        # Particle size.
         #
 
         self.size = (
@@ -109,13 +112,39 @@ class Particle:
         )
 
 
+        self.apply_style()
+
+        self.update_colour()
+
+
+
+    def apply_style(self):
+
+        """
+        Apply particle appearance.
+
+        Styles are currently prepared for:
+        - circle
+        - square
+        - star
+
+        Rendering remains intentionally simple while
+        preserving current visual behaviour.
+        """
+
         self.actor.set_size(
             self.size,
             self.size
         )
 
 
-        self.update_colour()
+        if self.style not in (
+            "circle",
+            "square",
+            "star"
+        ):
+
+            self.style = "circle"
 
 
 
@@ -147,7 +176,7 @@ class Particle:
     ):
 
         #
-        # Move star.
+        # Move particle.
         #
 
         self.x += (
@@ -200,16 +229,20 @@ class Particle:
         #
 
         if self.x < 0:
+
             self.x = width
 
         elif self.x > width:
+
             self.x = 0
 
 
         if self.y < 0:
+
             self.y = height
 
         elif self.y > height:
+
             self.y = 0
 
 
@@ -226,10 +259,12 @@ class ParticleSystem:
     def __init__(
         self,
         layer,
-        count=180
+        count=180,
+        style="circle"
     ):
 
         self.layer = layer
+        self.style = style
 
         self.particles = []
 
@@ -250,7 +285,8 @@ class ParticleSystem:
             particle = Particle(
                 actor,
                 self.width,
-                self.height
+                self.height,
+                self.style
             )
 
 
