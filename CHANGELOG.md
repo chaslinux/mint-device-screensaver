@@ -1,8 +1,26 @@
 # Changelog
 
 All notable changes to Mint Device Screensaver are documented here.
+# Changelog
 
-## 0.10.1 (In Development)
+## 0.10.2 - Visual polish release
+
+### Fixed
+
+- Restored depth-based icon scaling for improved visual depth.
+- Restored depth-based icon opacity variation during fade-in.
+- Improved icon breathing animation to make device icons feel more dynamic.
+
+### Improved
+
+- Refreshed screenshots to reflect current rendering behaviour.
+- Maintained compatibility with the existing GTK settings application and configuration system.
+
+### Notes
+
+This release focuses on restoring and refining the animated visual experience while keeping the standalone screensaver architecture unchanged.
+
+## 0.10.1 (Documentation)
 
 ### Documentation
 - Added project screenshots.
