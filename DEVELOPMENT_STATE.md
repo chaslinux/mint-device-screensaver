@@ -1,8 +1,10 @@
 # Development state - August 7 2026
 
-Current milestone:
-- v0.10.3 animation refinement in progress.
-- Focus is improving the existing visual experience without changing the standalone screensaver architecture.
+v0.10.3 development:
+- Added individual icon breathing variation.
+- Verified restored depth, fade, and movement behaviour.
+- Added screensaver demonstration video.
+- Updated README documentation with demo media.
 
 Completed release:
 - v0.10.2 Visual Polish Release completed.
