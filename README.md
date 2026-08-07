@@ -132,7 +132,7 @@ To build the package manually:
 Install the generated package:
 
 ```bash
-sudo dpkg -i ./mint-device-screensaver_*.deb
+sudo dpkg -i ../mint-device-screensaver_*.deb
 sudo apt install -f
 ```
 
