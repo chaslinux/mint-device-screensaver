@@ -1,20 +1,25 @@
 """
 particles.py
 
-Starfield-style atmospheric particle system.
+Atmospheric particle system.
 
 Creates:
 - randomly distributed particles
 - depth illusion
 - slow drifting motion
 - twinkling brightness
-- configurable particle style support
+- configurable particle styles
 """
 
 import random
 import math
 
-from giimports import Clutter
+import cairo
+
+from giimports import (
+    Clutter,
+    Cogl,
+)
 
 
 
@@ -36,10 +41,6 @@ class Particle:
         self.height = height
 
 
-        #
-        # Random full-screen placement.
-        #
-
         self.x = random.uniform(
             0,
             width
@@ -50,12 +51,6 @@ class Particle:
             height
         )
 
-
-        #
-        # Depth:
-        # small = far particle
-        # large = near particle
-        #
 
         self.depth = random.uniform(
             0.1,
@@ -68,15 +63,11 @@ class Particle:
         #
 
         self.size = (
-            1
+            2
             +
-            self.depth * 5
+            self.depth * 7
         )
 
-
-        #
-        # Very slow random movement.
-        #
 
         self.speed_x = random.uniform(
             -100,
@@ -89,10 +80,6 @@ class Particle:
             100
         ) * self.depth
 
-
-        #
-        # Twinkle timing.
-        #
 
         self.phase = random.uniform(
             0,
@@ -112,25 +99,8 @@ class Particle:
         )
 
 
-        self.apply_style()
+        self.render_shape()
 
-        self.update_colour()
-
-
-
-    def apply_style(self):
-
-        """
-        Apply particle appearance.
-
-        Styles are currently prepared for:
-        - circle
-        - square
-        - star
-
-        Rendering remains intentionally simple while
-        preserving current visual behaviour.
-        """
 
         self.actor.set_size(
             self.size,
@@ -138,32 +108,156 @@ class Particle:
         )
 
 
-        if self.style not in (
-            "circle",
-            "square",
-            "star"
-        ):
 
-            self.style = "circle"
+    def render_shape(self):
+
+        """
+        Render particle shape using Cairo.
+        """
+
+        size = 48
+
+
+        surface = cairo.ImageSurface(
+            cairo.FORMAT_ARGB32,
+            size,
+            size
+        )
+
+
+        context = cairo.Context(
+            surface
+        )
+
+
+        context.set_source_rgba(
+            1,
+            1,
+            1,
+            1
+        )
+
+
+        center = size / 2
+
+
+        if self.style == "square":
+
+            context.rectangle(
+                6,
+                6,
+                size - 12,
+                size - 12
+            )
+
+
+        elif self.style == "star":
+
+            points = 5
+
+            outer = 18
+            inner = 8
+
+
+            for i in range(
+                points * 2
+            ):
+
+                angle = (
+                    -math.pi / 2
+                    +
+                    i * math.pi / points
+                )
+
+
+                radius = (
+                    outer
+                    if i % 2 == 0
+                    else inner
+                )
+
+
+                x = (
+                    center
+                    +
+                    math.cos(angle)
+                    *
+                    radius
+                )
+
+                y = (
+                    center
+                    +
+                    math.sin(angle)
+                    *
+                    radius
+                )
+
+
+                if i == 0:
+
+                    context.move_to(
+                        x,
+                        y
+                    )
+
+                else:
+
+                    context.line_to(
+                        x,
+                        y
+                    )
+
+
+            context.close_path()
+
+
+        else:
+
+            context.arc(
+                center,
+                center,
+                16,
+                0,
+                math.pi * 2
+            )
+
+
+        context.fill()
+
+
+        surface.flush()
+
+
+        image = Clutter.Image()
+
+
+        image.set_data(
+            bytes(
+                surface.get_data()
+            ),
+            Cogl.PixelFormat.BGRA_8888,
+            size,
+            size,
+            surface.get_stride()
+        )
+
+
+        self.actor.set_content(
+            image
+        )
 
 
 
     def update_colour(self):
 
-        brightness = int(
-            180
-            +
-            self.depth * 75
-        )
+        """
+        Colour is stored in the Cairo image.
+        Only opacity is animated.
+        """
 
-
-        self.actor.set_background_color(
-            Clutter.Color.new(
-                brightness,
-                brightness,
-                255,
-                self.base_alpha
-            )
+        self.actor.set_opacity(
+            self.base_alpha
         )
 
 
@@ -174,10 +268,6 @@ class Particle:
         width,
         height
     ):
-
-        #
-        # Move particle.
-        #
 
         self.x += (
             self.speed_x
@@ -191,10 +281,6 @@ class Particle:
             delta
         )
 
-
-        #
-        # Twinkle.
-        #
 
         self.phase += (
             delta
@@ -212,21 +298,14 @@ class Particle:
         )
 
 
-        alpha = int(
-            self.base_alpha
-            *
-            brightness
-        )
-
-
         self.actor.set_opacity(
-            alpha
+            int(
+                self.base_alpha
+                *
+                brightness
+            )
         )
 
-
-        #
-        # Wrap edges.
-        #
 
         if self.x < 0:
 
