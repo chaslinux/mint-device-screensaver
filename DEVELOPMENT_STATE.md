@@ -1,79 +1,98 @@
 # Development state - August 7 2026
 
-## Current milestone
+Current milestone:
+- v0.10.3 animation refinement in progress.
+- Focus is improving the existing visual experience without changing the standalone screensaver architecture.
 
-v0.10.2 visual polish started:
-- Restored icon depth-based scaling.
-- Restored depth-based opacity variation.
-- Improved icon breathing animation.
-- Preserved newer rendering pipeline improvements.
-- Record screenshot refresh
+Completed release:
+- v0.10.2 Visual Polish Release completed.
+- Release restored depth-based icon scaling and opacity variation.
+- Screenshots updated to reflect current rendering behaviour.
+- Debian package and documentation updated.
 
-## Latest release
+Latest important commits:
+- v0.10.2 release commits:
+  - Restore icon depth and fade animation behaviour.
+  - Update screenshots for restored icon animations.
+  - Update changelog and Debian packaging metadata.
+  - Bump version to 0.10.2.
+  - Update development state for release.
 
-Release:
-
-- v0.10.1
-
-Tag:
-
-- v0.10.1
-
-Release highlights:
-
-- Added user configuration support.
-- Added standalone GTK settings application.
-- Added settings launcher and desktop menu integration.
-- Added background colour selection.
-- Added animation speed control.
-- Added mouse movement behaviour setting.
-- Added dynamic background colour transitions.
-- Improved README documentation.
-- Added project screenshots.
-- Added CHANGELOG.md.
-
-## Known observations / possible regressions
-Investigation result:
-- Icon depth and fade behaviour changed during later rendering improvements.
-- v0.7-staggered-icons contained stronger depth-based scaling and opacity variation.
-- Current version retained fade logic but reduced depth visual differences.
-- Restore enhanced icon depth behaviour as a future visual polish task.
-
-## Completed features
-### Application
-
+Completed features:
 - Standalone visual screensaver application.
-- GTK and Clutter based rendering.
-- Animated device icons.
+- Cinnamon integration without replacing lock handling.
+- Debian package build and installation workflow.
+- Standalone installer workflow.
+- GPLv3 licensing documentation.
+- User configuration support.
+- GTK settings application.
+- Settings application launcher and desktop menu entry.
+- Configurable animation speed.
+- Configurable mouse exit behaviour.
+- Configurable background colour.
+- Animated background colour transition.
+- Floating SVG device icons.
 - Particle background effects.
-- Fullscreen screensaver window.
-- Command line help support.
-- Version reporting.
-- Debug logging support.
+- Icon fade-in animation.
+- Icon depth variation.
+- Device-specific icon behaviours.
 
-### Cinnamon integration
+Current v0.10.3 goals:
+- Refine icon animation quality.
+- Improve organic movement and depth perception.
+- Review existing animation behaviours for regressions.
+- Improve visual polish before larger feature additions.
 
-- Cinnamon remains responsible for:
-  - Screen locking.
-  - Password authentication.
-  - Unlock handling.
+Planned animation improvements:
+- Review icon scaling and breathing effects.
+- Improve per-icon animation variation.
+- Review staggered fade timing.
+- Improve overall scene movement.
 
-- Mint Device Screensaver provides only the visual screensaver experience.
-- Cinnamon lock workflow verified.
-- Normal Ctrl+Alt+L locking verified.
+Testing completed:
+- Command line help:
 
-### Configuration
+  mint-device-screensaver --help
 
-Completed:
+- Version reporting:
 
-- Configuration file support.
-- Persistent user settings.
-- Animation speed control.
-- Background colour selection.
-- Mouse movement exit behaviour.
-- Reset to default settings.
+  mint-device-screensaver --version
 
-Configuration location:
+- Desktop entry validation:
 
-```text
-~/.config/mint-device-screensaver/config.ini
+  desktop-file-validate /usr/share/applications/mint-device-screensaver.desktop
+
+- Manual launch:
+
+  cinnamon-screensaver-command --activate
+
+- CTRL+ALT+L lock flow works.
+- Cinnamon lock screen appears after screensaver activation.
+- Unlock returns correctly to the Cinnamon session.
+- Cinnamon retains responsibility for authentication.
+
+Logs:
+- ~/.local/state/mint-device-screensaver/mint-device-device-screensaver.log
+
+Package:
+- Latest release:
+
+  mint-device-screensaver_0.10.2_all.deb
+
+- Build command:
+
+  debian/build-deb.sh
+
+Next tasks:
+1. Review current icon animation implementation.
+2. Improve organic icon movement and depth effects.
+3. Add updated screenshots if visual changes are significant.
+4. Consider demo media after animation improvements.
+5. Prepare v0.10.3 release.
+
+Development notes:
+- Do not replace Cinnamon's lock/login handling.
+- The application should remain a standalone visual screensaver.
+- Cinnamon integration should launch the animation only and allow Cinnamon to manage security features.
+- Preserve the existing GTK settings architecture.
+- Avoid major rendering changes unless they provide a clear visual improvement.
