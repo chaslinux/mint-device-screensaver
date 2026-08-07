@@ -19,4 +19,5 @@ data/icons/256x256/mint-device-screensaver.png usr/share/icons/hicolor/256x256/a
 data/applications/mint-device-screensaver.desktop usr/share/applications/
 data/config/config.ini.example usr/share/mint-device-screensaver/
 data/applications/mint-device-screensaver-settings.desktop usr/share/applications
-mint-device-screensaver-settings usr/bin
+mint-device-screensaver-settings usr/bin/
+src/settings.py usr/share/mint-device-screensaver/
