@@ -1,3 +1,12 @@
+mint-device-screensaver (0.10.3) noble; urgency=medium
+
+  * Add individual icon breathing variation.
+  * Refine screensaver animation behaviour.
+  * Add demonstration video to project documentation.
+  * Update README and development documentation.
+
+ -- chaslinux <chaslinux@gmail.com>  Fri, 07 Aug 2026 13:45:00 -0400
+
 mint-device-screensaver (0.10.2) noble; urgency=medium
 
   * Restored depth-based icon scaling and opacity variation.
@@ -54,7 +63,7 @@ mint-device-screensaver (0.1.2) noble; urgency=medium
   * Improved Cinnamon integration documentation.
   * Verified Cinnamon lock and unlock workflow.
 
- -- chaslinux <chaslinux@example.com>  Thu, 06 Aug 2026 13:30:00 -0400
+ -- chaslinux <chaslinux@gmail.com>  Thu, 06 Aug 2026 13:30:00 -0400
 
 mint-device-screensaver (0.1.0) noble; urgency=medium
 
@@ -65,4 +74,4 @@ mint-device-screensaver (0.1.0) noble; urgency=medium
   * Added desktop menu entry and launcher.
   * Added device icon rendering and particle effects.
 
- -- chaslinux <chaslinux@example.com>  Wed, 05 Aug 2026 17:00:00 +0000
+ -- chaslinux <chaslinux@gmail.com>  Wed, 05 Aug 2026 17:00:00 +0000
