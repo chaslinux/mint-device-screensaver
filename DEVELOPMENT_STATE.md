@@ -2,9 +2,11 @@
 
 ## Current milestone
 
-- v0.10.1 released.
-- Release workflow verified from development through Debian package installation.
-- Project documentation and screenshots updated.
+v0.10.2 visual polish started:
+- Restored icon depth-based scaling.
+- Restored depth-based opacity variation.
+- Improved icon breathing animation.
+- Preserved newer rendering pipeline improvements.
 
 ## Latest release
 

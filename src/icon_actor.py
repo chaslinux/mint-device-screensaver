@@ -66,11 +66,10 @@ class IconActor:
         #
 
         self.base_scale = (
-            0.65
+            0.35
             +
-            self.depth * 0.45
+            self.depth * 0.85
         )
-
 
         #
         # Fade state.
@@ -78,7 +77,11 @@ class IconActor:
 
         self.opacity = 0
 
-        self.target_opacity = 220
+        self.target_opacity = int(
+            80
+            +
+            self.depth * 175
+        )
 
 
         self.fade_delay = random.uniform(
@@ -311,7 +314,7 @@ class IconActor:
                 self.time * 0.5
             )
             *
-            0.03
+            0.05
         )
 
 
