@@ -67,9 +67,9 @@ class Scene:
         self.particles = self.create_layer()
 
         self.particle_effect = ParticleSystem(
-            self.particles
+            self.particles,
+            self.config.particle_count
         )
-
 
         logging.debug(
             "Creating icon layer."

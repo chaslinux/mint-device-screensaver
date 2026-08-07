@@ -225,7 +225,8 @@ class ParticleSystem:
 
     def __init__(
         self,
-        layer
+        layer,
+        count=180
     ):
 
         self.layer = layer
@@ -234,13 +235,6 @@ class ParticleSystem:
 
         self.width = 1920
         self.height = 1080
-
-
-        #
-        # Star count.
-        #
-
-        count = 180
 
 
         for i in range(count):

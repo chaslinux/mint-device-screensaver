@@ -17,6 +17,7 @@ from constants import (
     EXIT_ON_MOUSE_MOVE,
     ANIMATION_SPEED,
     BACKGROUND_COLOR,
+    PARTICLE_COUNT,
 )
 
 
@@ -31,10 +32,9 @@ class Config:
 
 
         self.exit_on_mouse_move = EXIT_ON_MOUSE_MOVE
-
         self.animation_speed = ANIMATION_SPEED
-
         self.background_color = BACKGROUND_COLOR
+        self.particle_count = PARTICLE_COUNT
 
 
         self.create_default_config()
@@ -102,6 +102,9 @@ speed=1.0
 
 [appearance]
 background=#14141e
+
+[particles]
+count=180
 """
         )
 
@@ -133,7 +136,6 @@ background=#14141e
 
 
         self.create_default_config()
-
 
         self.load()
 
@@ -179,6 +181,13 @@ background=#14141e
         parser["appearance"] = {
             "background": "#{:02x}{:02x}{:02x}".format(
                 *self.background_color
+            )
+        }
+
+
+        parser["particles"] = {
+            "count": str(
+                self.particle_count
             )
         }
 
@@ -252,6 +261,20 @@ background=#14141e
 
 
             if parser.has_option(
+                "particles",
+                "count"
+            ):
+
+                self.particle_count = (
+                    parser.getint(
+                        "particles",
+                        "count"
+                    )
+                )
+
+
+
+            if parser.has_option(
                 "appearance",
                 "background"
             ):
@@ -267,10 +290,11 @@ background=#14141e
 
 
             logging.debug(
-                "Configuration loaded: exit_on_mouse_move=%s speed=%s background=%s",
+                "Configuration loaded: exit_on_mouse_move=%s speed=%s background=%s particles=%s",
                 self.exit_on_mouse_move,
                 self.animation_speed,
-                self.background_color
+                self.background_color,
+                self.particle_count
             )
 
 
