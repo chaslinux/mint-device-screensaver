@@ -1,26 +1,30 @@
-# Development state - August 6 2026
+# Development state - August 7 2026
 
 Current milestone:
-- v0.9.0 released.
-- Debian package published on GitHub Releases.
-- Standalone installer workflow complete.
-- Cinnamon integration verified without replacing lock handling.
+- v0.10.0 user experience improvements in progress.
+- Configuration backend now supports saving changes.
+- Standalone GTK settings application added.
+- Settings application has its own launcher and desktop menu entry.
+- Debian packaging updated to include settings application.
 
 Latest important commits:
-- 9b80598 Improve screensaver rendering and Cinnamon integration
-- d2e0751 Clarify Cinnamon screensaver integration status
-- Remove generated Debian build files
-- Add command line help option
-- Improve desktop entry metadata
+- 39b1e50 Add configuration save support
+- Add settings application skeleton
 
-Current state:
-- main branch clean and pushed to origin.
-- Generated Debian build files are removed from git.
-- Package installs correctly with:
+Completed features:
+- Standalone visual screensaver application.
+- Cinnamon integration without replacing lock handling.
+- Debian package build and installation workflow.
+- Standalone installer workflow.
+- GPLv3 licensing documentation.
+- User configuration support.
+- GTK settings application foundation.
 
-  sudo apt install --reinstall ../mint-device-screensaver_0.1.0_all.deb
-
-- Installed application tested successfully.
+Current v0.10.0 goals:
+- Add animation speed control.
+- Add mouse movement behavior setting.
+- Add background color selection.
+- Improve first-run user experience.
 
 Verified:
 - Command line help:
