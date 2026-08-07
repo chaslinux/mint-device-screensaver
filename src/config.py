@@ -20,7 +20,6 @@ from constants import (
 )
 
 
-
 class Config:
 
 
@@ -137,6 +136,62 @@ background=#14141e
 
 
         self.load()
+
+
+
+    def save(self):
+
+        """
+        Save current configuration values.
+        """
+
+        path = self.config_path()
+
+
+        logging.info(
+            "Saving configuration."
+        )
+
+
+        path.parent.mkdir(
+            parents=True,
+            exist_ok=True
+        )
+
+
+        parser = configparser.ConfigParser()
+
+
+        parser["general"] = {
+            "exit_on_mouse_move": str(
+                self.exit_on_mouse_move
+            )
+        }
+
+
+        parser["animation"] = {
+            "speed": str(
+                self.animation_speed
+            )
+        }
+
+
+        parser["appearance"] = {
+            "background": "#{:02x}{:02x}{:02x}".format(
+                *self.background_color
+            )
+        }
+
+
+        with path.open("w") as file:
+
+            parser.write(file)
+
+
+        logging.info(
+            "Configuration saved: %s",
+            path
+        )
 
 
 
