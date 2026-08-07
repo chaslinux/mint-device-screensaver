@@ -71,6 +71,22 @@ class IconActor:
             self.depth * 0.85
         )
 
+
+        #
+        # Individual breathing variation.
+        #
+
+        self.breath_speed = random.uniform(
+            0.3,
+            0.8
+        )
+
+        self.breath_amount = random.uniform(
+            0.02,
+            0.05
+        )
+
+
         #
         # Fade state.
         #
@@ -311,10 +327,10 @@ class IconActor:
             self.base_scale
             +
             math.sin(
-                self.time * 0.5
+                self.time * self.breath_speed
             )
             *
-            0.05
+            self.breath_amount
         )
 
 
