@@ -1,12 +1,12 @@
-mint-device-screensaver (0.1.3) noble; urgency=medium
+mint-device-screensaver (0.9.0) noble; urgency=medium
 
-  * Added standalone install.sh installer.
-  * Added standalone uninstall.sh utility.
-  * Improved README with installation instructions and screenshots.
-  * Clarified standalone application architecture.
-  * Improved project documentation.
+  * Added standalone application installer.
+  * Added standalone uninstall utility.
+  * Added README screenshots and improved documentation.
+  * Improved release packaging workflow.
+  * Clarified Cinnamon integration architecture.
 
- -- chaslinux <chaslinux@example.com>  Fri, 07 Aug 2026 08:30:00 -0400
+ -- chaslinux <chaslinux@gmail.com>  Fri, 07 Aug 2026 09:00:00 -0400
 
 mint-device-screensaver (0.1.2) noble; urgency=medium
 
