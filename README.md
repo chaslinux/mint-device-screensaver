@@ -89,7 +89,8 @@ To build the package manually:
 Install the generated package:
 
 ```bash
-sudo apt install ../mint-device-screensaver_*.deb
+sudo dpkg -i ./mint-device-screensaver_*.deb
+sudo apt install -f
 ```
 
 ## Running from source

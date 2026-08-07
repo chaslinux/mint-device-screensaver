@@ -1,11 +1,10 @@
 # Development state - August 6 2026
 
 Current milestone:
-- Standalone screensaver application is complete.
-- Cinnamon integration launches mint-device-screensaver through org.cinnamon.desktop.screensaver custom-screensaver-command.
-- Cinnamon remains responsible for locking and login authentication.
-- Rendering works: full screen window, SVG icons, animation loop, and particle background.
-- Debian package builds and installs correctly.
+- v0.9.0 released.
+- Debian package published on GitHub Releases.
+- Standalone installer workflow complete.
+- Cinnamon integration verified without replacing lock handling.
 
 Latest important commits:
 - 9b80598 Improve screensaver rendering and Cinnamon integration

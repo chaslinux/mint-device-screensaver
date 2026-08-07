@@ -57,7 +57,7 @@ echo "Installing package:"
 echo "  $PACKAGE"
 echo
 
-sudo apt install -y "$PACKAGE"
+sudo dpkg -i "$PACKAGE" || sudo apt install -f -y
 
 
 echo
