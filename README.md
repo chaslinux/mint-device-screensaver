@@ -281,7 +281,7 @@ See the `LICENSE` file for details.
 Current release:
 
 ```text
-Mint Device Screensaver 0.10.3 (development)
+Mint Device Screensaver 0.10.4 (development)
 ```
 
 The project is focused on providing a stable, customizable standalone screensaver experience for Linux Mint Cinnamon.
