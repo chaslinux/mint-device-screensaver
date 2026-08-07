@@ -30,7 +30,7 @@ class SettingsWindow(Gtk.Window):
 
         self.set_default_size(
             400,
-            300
+            420
         )
 
 
@@ -59,7 +59,6 @@ class SettingsWindow(Gtk.Window):
         )
 
 
-
         speed_title = Gtk.Label(
             label="Animation Speed"
         )
@@ -70,7 +69,6 @@ class SettingsWindow(Gtk.Window):
             False,
             0
         )
-
 
 
         self.speed_scale = Gtk.Scale.new_with_range(
@@ -97,7 +95,6 @@ class SettingsWindow(Gtk.Window):
         )
 
 
-
         self.mouse_check = Gtk.CheckButton(
             label="Exit screensaver when mouse moves"
         )
@@ -116,7 +113,6 @@ class SettingsWindow(Gtk.Window):
         )
 
 
-
         color_title = Gtk.Label(
             label="Background Color"
         )
@@ -130,12 +126,10 @@ class SettingsWindow(Gtk.Window):
         )
 
 
-
         self.color_button = Gtk.ColorButton()
 
 
         self.update_color_button()
-
 
 
         layout.pack_start(
@@ -145,6 +139,111 @@ class SettingsWindow(Gtk.Window):
             0
         )
 
+
+        #
+        # Particle count.
+        #
+
+        particle_title = Gtk.Label(
+            label="Particle Count"
+        )
+
+
+        layout.pack_start(
+            particle_title,
+            False,
+            False,
+            0
+        )
+
+
+        self.particle_scale = Gtk.Scale.new_with_range(
+            Gtk.Orientation.HORIZONTAL,
+            50,
+            500,
+            10
+        )
+
+
+        self.particle_scale.set_value(
+            self.config.particle_count
+        )
+
+
+        self.particle_scale.set_digits(
+            0
+        )
+
+
+        layout.pack_start(
+            self.particle_scale,
+            False,
+            False,
+            0
+        )
+
+
+        #
+        # Particle style.
+        #
+
+        style_title = Gtk.Label(
+            label="Particle Style"
+        )
+
+
+        layout.pack_start(
+            style_title,
+            False,
+            False,
+            0
+        )
+
+
+        self.style_combo = Gtk.ComboBoxText()
+
+
+        self.style_combo.append_text(
+            "circle"
+        )
+
+        self.style_combo.append_text(
+            "square"
+        )
+
+        self.style_combo.append_text(
+            "star"
+        )
+
+
+        styles = [
+            "circle",
+            "square",
+            "star"
+        ]
+
+
+        if self.config.particle_style in styles:
+
+            self.style_combo.set_active(
+                styles.index(
+                    self.config.particle_style
+                )
+            )
+
+        else:
+
+            self.style_combo.set_active(
+                0
+            )
+
+
+        layout.pack_start(
+            self.style_combo,
+            False,
+            False,
+            0
+        )
 
 
         button_box = Gtk.Box(
@@ -159,7 +258,6 @@ class SettingsWindow(Gtk.Window):
             False,
             0
         )
-
 
 
         save_button = Gtk.Button(
@@ -181,7 +279,6 @@ class SettingsWindow(Gtk.Window):
         )
 
 
-
         reset_button = Gtk.Button(
             label="Reset to Defaults"
         )
@@ -199,7 +296,6 @@ class SettingsWindow(Gtk.Window):
             True,
             0
         )
-
 
 
         self.connect(
@@ -265,6 +361,16 @@ class SettingsWindow(Gtk.Window):
         )
 
 
+        self.config.particle_count = int(
+            self.particle_scale.get_value()
+        )
+
+
+        self.config.particle_style = (
+            self.style_combo.get_active_text()
+        )
+
+
         self.config.save()
 
 
@@ -290,6 +396,25 @@ class SettingsWindow(Gtk.Window):
 
 
         self.update_color_button()
+
+
+        self.particle_scale.set_value(
+            self.config.particle_count
+        )
+
+
+        styles = [
+            "circle",
+            "square",
+            "star"
+        ]
+
+
+        self.style_combo.set_active(
+            styles.index(
+                self.config.particle_style
+            )
+        )
 
 
 
