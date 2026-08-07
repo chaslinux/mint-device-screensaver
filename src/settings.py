@@ -5,14 +5,17 @@ GTK settings application for configuring
 Mint Device Screensaver.
 """
 
+
 import logging
 
-from giimports import Gtk
+from giimports import Gtk, Gdk
 
 from config import Config
 
 
+
 class SettingsWindow(Gtk.Window):
+
 
     def __init__(self):
 
@@ -20,11 +23,16 @@ class SettingsWindow(Gtk.Window):
             title="Mint Device Screensaver Settings"
         )
 
-        self.set_border_width(20)
+
+        self.set_border_width(
+            20
+        )
+
         self.set_default_size(
             400,
-            250
+            300
         )
+
 
         self.config = Config()
 
@@ -34,7 +42,9 @@ class SettingsWindow(Gtk.Window):
             spacing=12
         )
 
-        self.add(layout)
+        self.add(
+            layout
+        )
 
 
         title = Gtk.Label(
@@ -49,6 +59,7 @@ class SettingsWindow(Gtk.Window):
         )
 
 
+
         speed_title = Gtk.Label(
             label="Animation Speed"
         )
@@ -59,6 +70,7 @@ class SettingsWindow(Gtk.Window):
             False,
             0
         )
+
 
 
         self.speed_scale = Gtk.Scale.new_with_range(
@@ -72,7 +84,9 @@ class SettingsWindow(Gtk.Window):
             self.config.animation_speed
         )
 
-        self.speed_scale.set_digits(2)
+        self.speed_scale.set_digits(
+            2
+        )
 
 
         layout.pack_start(
@@ -83,9 +97,11 @@ class SettingsWindow(Gtk.Window):
         )
 
 
+
         self.mouse_check = Gtk.CheckButton(
             label="Exit screensaver when mouse moves"
         )
+
 
         self.mouse_check.set_active(
             self.config.exit_on_mouse_move
@@ -100,9 +116,56 @@ class SettingsWindow(Gtk.Window):
         )
 
 
+
+        color_title = Gtk.Label(
+            label="Background Color"
+        )
+
+
+        layout.pack_start(
+            color_title,
+            False,
+            False,
+            0
+        )
+
+
+
+        self.color_button = Gtk.ColorButton()
+
+
+        self.update_color_button()
+
+
+
+        layout.pack_start(
+            self.color_button,
+            False,
+            False,
+            0
+        )
+
+
+
+        button_box = Gtk.Box(
+            orientation=Gtk.Orientation.HORIZONTAL,
+            spacing=10
+        )
+
+
+        layout.pack_start(
+            button_box,
+            False,
+            False,
+            0
+        )
+
+
+
         save_button = Gtk.Button(
             label="Save"
         )
+
 
         save_button.connect(
             "clicked",
@@ -110,17 +173,64 @@ class SettingsWindow(Gtk.Window):
         )
 
 
-        layout.pack_start(
+        button_box.pack_start(
             save_button,
-            False,
-            False,
+            True,
+            True,
             0
         )
+
+
+
+        reset_button = Gtk.Button(
+            label="Reset to Defaults"
+        )
+
+
+        reset_button.connect(
+            "clicked",
+            self.reset_settings
+        )
+
+
+        button_box.pack_start(
+            reset_button,
+            True,
+            True,
+            0
+        )
+
 
 
         self.connect(
             "destroy",
             Gtk.main_quit
+        )
+
+
+
+    def update_color_button(self):
+
+        color = Gdk.RGBA()
+
+
+        color.red = (
+            self.config.background_color[0] / 255
+        )
+
+        color.green = (
+            self.config.background_color[1] / 255
+        )
+
+        color.blue = (
+            self.config.background_color[2] / 255
+        )
+
+        color.alpha = 1.0
+
+
+        self.color_button.set_rgba(
+            color
         )
 
 
@@ -142,7 +252,44 @@ class SettingsWindow(Gtk.Window):
         )
 
 
+        color = (
+            self.color_button
+            .get_rgba()
+        )
+
+
+        self.config.background_color = (
+            int(color.red * 255),
+            int(color.green * 255),
+            int(color.blue * 255)
+        )
+
+
         self.config.save()
+
+
+
+    def reset_settings(self, button):
+
+        logging.info(
+            "Resetting settings."
+        )
+
+
+        self.config.reset()
+
+
+        self.speed_scale.set_value(
+            self.config.animation_speed
+        )
+
+
+        self.mouse_check.set_active(
+            self.config.exit_on_mouse_move
+        )
+
+
+        self.update_color_button()
 
 
 

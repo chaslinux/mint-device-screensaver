@@ -19,7 +19,7 @@ from icon_system import IconSystem
 class Scene:
 
 
-    def __init__(self, stage):
+    def __init__(self, stage, config):
 
         logging.debug(
             "Initializing scene."
@@ -27,6 +27,8 @@ class Scene:
 
 
         self.stage = stage
+
+        self.config = config
 
 
         self.root = Clutter.Actor()
@@ -44,7 +46,8 @@ class Scene:
         self.background = self.create_layer()
 
         self.background_effect = Background(
-            self.background
+            self.background,
+            self.config.background_color
         )
 
 

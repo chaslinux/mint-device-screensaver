@@ -151,7 +151,8 @@ class ScreenSaverWindow(Gtk.Window):
         if self.scene is None:
 
             self.scene = Scene(
-                self.stage
+                self.stage,
+                self.application.config
             )
 
 
