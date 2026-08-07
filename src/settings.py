@@ -49,15 +49,51 @@ class SettingsWindow(Gtk.Window):
         )
 
 
-        self.speed_label = Gtk.Label(
-            label=(
-                f"Animation Speed: "
-                f"{self.config.animation_speed}"
-            )
+        speed_title = Gtk.Label(
+            label="Animation Speed"
         )
 
         layout.pack_start(
-            self.speed_label,
+            speed_title,
+            False,
+            False,
+            0
+        )
+
+
+        self.speed_scale = Gtk.Scale.new_with_range(
+            Gtk.Orientation.HORIZONTAL,
+            0.25,
+            3.0,
+            0.25
+        )
+
+        self.speed_scale.set_value(
+            self.config.animation_speed
+        )
+
+        self.speed_scale.set_digits(2)
+
+
+        layout.pack_start(
+            self.speed_scale,
+            False,
+            False,
+            0
+        )
+
+
+        self.mouse_check = Gtk.CheckButton(
+            label="Exit screensaver when mouse moves"
+        )
+
+        self.mouse_check.set_active(
+            self.config.exit_on_mouse_move
+        )
+
+
+        layout.pack_start(
+            self.mouse_check,
             False,
             False,
             0
@@ -88,11 +124,23 @@ class SettingsWindow(Gtk.Window):
         )
 
 
+
     def save_settings(self, button):
 
         logging.info(
             "Saving settings."
         )
+
+
+        self.config.animation_speed = (
+            self.speed_scale.get_value()
+        )
+
+
+        self.config.exit_on_mouse_move = (
+            self.mouse_check.get_active()
+        )
+
 
         self.config.save()
 
