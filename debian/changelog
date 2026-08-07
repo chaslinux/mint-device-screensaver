@@ -1,3 +1,12 @@
+mint-device-screensaver (0.10.4) noble; urgency=medium
+
+  * Added particle customization support.
+  * Added particle count and particle style controls.
+  * Added particle controls to the GTK settings application.
+  * Improved particle rendering with Cairo-based shapes.
+
+ -- chaslinux <chaslinux@gmail.com>  Fri, 07 Aug 2026 15:30:00 -0400
+
 mint-device-screensaver (0.10.3) noble; urgency=medium
 
   * Add individual icon breathing variation.
