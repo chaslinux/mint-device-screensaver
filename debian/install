@@ -18,3 +18,5 @@ data/icons/scalable/mint-device-screensaver.svg usr/share/icons/hicolor/scalable
 data/icons/256x256/mint-device-screensaver.png usr/share/icons/hicolor/256x256/apps/
 data/applications/mint-device-screensaver.desktop usr/share/applications/
 data/config/config.ini.example usr/share/mint-device-screensaver/
+data/applications/mint-device-screensaver-settings.desktop usr/share/applications
+mint-device-screensaver-settings usr/bin

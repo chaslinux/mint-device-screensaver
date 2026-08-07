@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Mint Device Screensaver Settings
+Comment=Configure Mint Device Screensaver options
+Exec=mint-device-screensaver-settings
+Icon=mint-device-screensaver
+Terminal=false
+Categories=Settings;
+StartupNotify=true
