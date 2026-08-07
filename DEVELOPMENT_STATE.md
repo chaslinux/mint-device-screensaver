@@ -1,18 +1,54 @@
 # Development state - August 7 2026
 
-v0.10.3 development:
-- Added individual icon breathing variation.
-- Verified restored depth, fade, and movement behaviour.
-- Added screensaver demonstration video.
-- Updated README documentation with demo media.
+## Current Development
 
-Completed release:
+Version: 0.10.4
+
+Focus:
+Customization improvements.
+
+Planned improvements:
+
+* Particle system customization:
+  * Adjustable particle count.
+  * Selectable particle styles (circle, square, star).
+  * Selectable particle movement patterns.
+
+* Icon customization:
+  * Adjustable icon density.
+  * Adjustable icon size while preserving depth-based scaling.
+
+* Animation customization:
+  * Adjustable animation intensity.
+  * Preserve existing organic movement behaviour.
+
+## Completed
+
+### Version 0.10.3
+
+* Added individual icon breathing variation.
+* Refined screensaver animation behaviour.
+* Added demonstration video documentation.
+* Improved README and development documentation.
+* Corrected Debian package installation instructions.
+
+Completed releases:
+
+- v0.10.3 Animation and documentation polish release completed.
 - v0.10.2 Visual Polish Release completed.
 - Release restored depth-based icon scaling and opacity variation.
 - Screenshots updated to reflect current rendering behaviour.
 - Debian package and documentation updated.
 
 Latest important commits:
+
+- v0.10.3 release commits:
+  - Add individual icon breathing variation.
+  - Refine screensaver animation behaviour.
+  - Add screensaver demo video documentation.
+  - Update README and development documentation.
+  - Correct Debian package installation instructions.
+
 - v0.10.2 release commits:
   - Restore icon depth and fade animation behaviour.
   - Update screenshots for restored icon animations.
@@ -21,6 +57,7 @@ Latest important commits:
   - Update development state for release.
 
 Completed features:
+
 - Standalone visual screensaver application.
 - Cinnamon integration without replacing lock handling.
 - Debian package build and installation workflow.
@@ -39,19 +76,25 @@ Completed features:
 - Icon depth variation.
 - Device-specific icon behaviours.
 
-Current v0.10.3 goals:
-- Refine icon animation quality.
-- Improve organic movement and depth perception.
-- Review existing animation behaviours for regressions.
-- Improve visual polish before larger feature additions.
+Current v0.10.4 goals:
 
-Planned animation improvements:
-- Review icon scaling and breathing effects.
-- Improve per-icon animation variation.
-- Review staggered fade timing.
-- Improve overall scene movement.
+- Add particle system customization.
+- Add icon density controls.
+- Add animation intensity controls.
+- Preserve existing depth-based icon scaling behaviour.
+- Improve user control without reducing organic animation quality.
+
+Planned customization improvements:
+
+- Add particle count controls.
+- Add particle style selection.
+- Add particle movement pattern selection.
+- Add icon density controls.
+- Add icon size customization while preserving depth simulation.
+- Add animation intensity adjustment.
 
 Testing completed:
+
 - Command line help:
 
   mint-device-screensaver --help
@@ -74,27 +117,33 @@ Testing completed:
 - Cinnamon retains responsibility for authentication.
 
 Logs:
-- ~/.local/state/mint-device-screensaver/mint-device-device-screensaver.log
+
+- ~/.local/state/mint-device-screensaver/mint-device-screensaver.log
 
 Package:
+
 - Latest release:
 
-  mint-device-screensaver_0.10.2_all.deb
+  mint-device-screensaver_0.10.3_all.deb
 
 - Build command:
 
   debian/build-deb.sh
 
 Next tasks:
-1. Review current icon animation implementation.
-2. Improve organic icon movement and depth effects.
-3. Add updated screenshots if visual changes are significant.
-4. Consider demo media after animation improvements.
-5. Prepare v0.10.3 release.
+
+1. Implement particle customization settings.
+2. Add icon density controls.
+3. Add animation intensity controls.
+4. Review icon size customization while preserving depth scaling.
+5. Update screenshots and documentation after feature completion.
+6. Prepare v0.10.4 release.
 
 Development notes:
+
 - Do not replace Cinnamon's lock/login handling.
 - The application should remain a standalone visual screensaver.
 - Cinnamon integration should launch the animation only and allow Cinnamon to manage security features.
 - Preserve the existing GTK settings architecture.
 - Avoid major rendering changes unless they provide a clear visual improvement.
+- Preserve the organic movement and depth perception introduced in previous releases.
