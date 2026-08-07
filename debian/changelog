@@ -1,3 +1,14 @@
+mint-device-screensaver (0.10.0) noble; urgency=medium
+
+  * Added graphical settings application.
+  * Added persistent user configuration support.
+  * Added configurable animation speed.
+  * Added configurable background colour.
+  * Added reset-to-default settings support.
+  * Improved background colour transitions and dynamic animation.
+
+ -- chaslinux <chaslinux@gmail.com>  Fri, 07 Aug 2026 12:00:00 -0400
+
 mint-device-screensaver (0.9.1) noble; urgency=medium
 
   * Improved local Debian package installation workflow.
