@@ -7,6 +7,7 @@ v0.10.2 visual polish started:
 - Restored depth-based opacity variation.
 - Improved icon breathing animation.
 - Preserved newer rendering pipeline improvements.
+- Record screenshot refresh
 
 ## Latest release
 
