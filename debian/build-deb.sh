@@ -2,26 +2,54 @@
 
 set -e
 
-PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+echo
+echo "=========================================="
+echo " Mint Device Screensaver Debian Builder"
+echo "=========================================="
+echo
 
-cd "$PROJECT_ROOT"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
-echo "Cleaning previous Debian builds..."
+cd "$PROJECT_DIR"
 
-rm -rf debian/.debhelper
-rm -rf debian/mint-device-screensaver
-rm -f debian/files
-rm -f debian/*.substvars
-rm -f debian/*.debhelper
+#
+# Clean previous Debian build artifacts
+#
 
+echo "Cleaning previous Debian build artifacts..."
 
+rm -f ../mint-device-screensaver_*.deb
+rm -f ../mint-device-screensaver_*.changes
+rm -f ../mint-device-screensaver_*.buildinfo
+rm -f ../mint-device-screensaver_*.dsc
+rm -f ../mint-device-screensaver_*.tar.xz
+
+#
+# Build package
+#
+
+echo
 echo "Building Debian package..."
 
-dpkg-buildpackage -us -uc
+dpkg-buildpackage -us -uc -b
 
+#
+# Locate generated package
+#
+
+PACKAGE=$(ls -t ../mint-device-screensaver_*.deb | head -n1)
 
 echo
 echo "Build complete."
 echo
+
 echo "Package created:"
-ls -lh ../mint-device-screensaver_*.deb
+ls -lh "$PACKAGE"
+
+echo
+echo "Install with:"
+echo
+echo "  sudo dpkg -i $PACKAGE"
+echo "  sudo apt install -f"
+echo

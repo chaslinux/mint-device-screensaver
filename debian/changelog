@@ -3,6 +3,7 @@ mint-device-screensaver (0.9.1) noble; urgency=medium
   * Improved local Debian package installation workflow.
   * Avoided confusing apt sandbox warnings during installation.
   * Updated installation documentation.
+  * Cleaned generated Debian package artifacts before building.
 
  -- chaslinux <chaslinux@gmail.com>  Fri, 07 Aug 2026 10:00:00 -0400
 
