@@ -8,7 +8,7 @@ An animated device-themed screensaver for Linux Mint Cinnamon.
 
 ## Demo
 
-![Mint Device Screensaver demo](https://github.com/user-attachments/assets/34cba14b-4e02-4ec5-94e4-344b980ff894)
+https://github.com/user-attachments/assets/34cba14b-4e02-4ec5-94e4-344b980ff894
 
 Mint Device Screensaver is a standalone visual screensaver application built with GTK and Clutter. It provides animated device icons, particles, and fullscreen visual effects while allowing Cinnamon to remain responsible for screen locking and authentication.
 
